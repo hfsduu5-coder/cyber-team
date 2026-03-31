@@ -1,0 +1,2260 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="site-title-tag">السايبر تيم</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;900&family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   DESIGN SYSTEM — CYBER/HACKER THEME
+   Primary: #020202 | Accent: #8b0020 (Maroon) | Neon: #ff003c
+   ============================================================ */
+:root{
+  --bg:#020202;
+  --bg2:#080808;
+  --bg3:#0e0e0e;
+  --surface:#111111;
+  --surface2:#181818;
+  --red:#ff003c;
+  --red2:#cc0030;
+  --maroon:#8b0020;
+  --maroon2:#6a0018;
+  --neon:#ff003c;
+  --neon2:#ff6680;
+  --cyan:#00ffcc;
+  --green:#00ff88;
+  --yellow:#ffcc00;
+  --blue:#4488ff;
+  --text:#f0f0f0;
+  --text2:#888;
+  --text3:#444;
+  --border:#1a1a1a;
+  --border2:#2a2a2a;
+  --glow:rgba(255,0,60,0.15);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
+
+/* GRID BACKGROUND */
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:linear-gradient(rgba(139,0,32,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(139,0,32,0.04) 1px,transparent 1px);
+  background-size:60px 60px;pointer-events:none;z-index:0;
+}
+
+/* SCANLINES */
+body::after{
+  content:'';position:fixed;inset:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.03) 2px,rgba(0,0,0,0.03) 4px);
+  pointer-events:none;z-index:0;
+}
+
+/* ============================================================ SCROLLBAR */
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--maroon);border-radius:2px;}
+
+/* ============================================================ TYPOGRAPHY */
+.mono{font-family:'Share Tech Mono',monospace;}
+.rajdhani{font-family:'Rajdhani',sans-serif;}
+
+/* ============================================================ UTILITIES */
+.z1{position:relative;z-index:1;}
+.hidden{display:none!important;}
+.flex{display:flex;}
+.flex-col{flex-direction:column;}
+.items-center{align-items:center;}
+.justify-between{justify-content:space-between;}
+.gap-sm{gap:.5rem;}
+.gap-md{gap:1rem;}
+.gap-lg{gap:1.5rem;}
+.text-red{color:var(--red);}
+.text-cyan{color:var(--cyan);}
+.text-green{color:var(--green);}
+.text-muted{color:var(--text2);}
+.text-dim{color:var(--text3);}
+.w-full{width:100%;}
+
+/* ============================================================ BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:.4rem;padding:.5rem 1rem;border-radius:3px;font-family:'Cairo',sans-serif;font-size:.82rem;font-weight:600;cursor:pointer;border:1px solid;transition:all .2s;text-decoration:none;}
+.btn-primary{color:var(--red);border-color:rgba(255,0,60,.35);background:rgba(255,0,60,.08);}
+.btn-primary:hover{background:rgba(255,0,60,.18);border-color:var(--red);box-shadow:0 0 15px rgba(255,0,60,.15);}
+.btn-maroon{color:#ff6680;border-color:rgba(139,0,32,.5);background:rgba(139,0,32,.15);}
+.btn-maroon:hover{background:rgba(139,0,32,.28);border-color:var(--maroon);}
+.btn-success{color:var(--green);border-color:rgba(0,255,136,.25);background:rgba(0,255,136,.06);}
+.btn-success:hover{background:rgba(0,255,136,.15);border-color:var(--green);}
+.btn-warn{color:var(--yellow);border-color:rgba(255,204,0,.25);background:rgba(255,204,0,.06);}
+.btn-warn:hover{background:rgba(255,204,0,.15);}
+.btn-danger{color:#ff4444;border-color:rgba(255,68,68,.25);background:rgba(255,68,68,.06);}
+.btn-danger:hover{background:rgba(255,68,68,.15);}
+.btn-cyan{color:var(--cyan);border-color:rgba(0,255,204,.25);background:rgba(0,255,204,.06);}
+.btn-cyan:hover{background:rgba(0,255,204,.15);}
+.btn-sm{padding:.3rem .65rem;font-size:.72rem;}
+.btn-xs{padding:.2rem .45rem;font-size:.65rem;}
+.btn-lg{padding:.7rem 1.5rem;font-size:.95rem;}
+.btn-icon{padding:.3rem .4rem;font-size:.85rem;}
+
+/* ============================================================ TAGS */
+.tag{font-family:'Share Tech Mono',monospace;font-size:.58rem;padding:.12rem .45rem;border-radius:2px;}
+.tag-free{background:rgba(0,255,136,.1);color:var(--green);border:1px solid rgba(0,255,136,.2);}
+.tag-paid{background:rgba(136,136,136,.1);color:var(--text2);border:1px solid rgba(136,136,136,.2);}
+.tag-pwyw{background:rgba(255,204,0,.1);color:var(--yellow);border:1px solid rgba(255,204,0,.2);}
+.tag-easy{background:rgba(0,255,136,.1);color:var(--green);border:1px solid rgba(0,255,136,.2);}
+.tag-medium{background:rgba(255,204,0,.1);color:var(--yellow);border:1px solid rgba(255,204,0,.2);}
+.tag-hard{background:rgba(255,0,60,.1);color:var(--red);border:1px solid rgba(255,0,60,.2);}
+.tag-beginner{background:rgba(68,136,255,.1);color:var(--blue);border:1px solid rgba(68,136,255,.2);}
+.tag-advanced{background:rgba(255,0,60,.1);color:var(--red);border:1px solid rgba(255,0,60,.2);}
+
+/* ============================================================ FORMS */
+.form-group{margin-bottom:.9rem;}
+.form-label{display:block;font-size:.72rem;color:var(--text3);margin-bottom:.3rem;font-family:'Share Tech Mono',monospace;letter-spacing:1px;}
+.form-control{width:100%;background:var(--surface);border:1px solid var(--border2);border-radius:3px;padding:.55rem .85rem;color:var(--text);font-family:'Cairo',sans-serif;font-size:.82rem;outline:none;transition:border-color .2s;}
+.form-control:focus{border-color:var(--maroon);}
+textarea.form-control{min-height:70px;resize:vertical;}
+select.form-control option{background:var(--surface);}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;}
+.form-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.75rem;}
+
+/* ============================================================ CARDS */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;transition:border-color .3s,box-shadow .3s;}
+.card:hover{border-color:var(--border2);}
+.card-red:hover{border-color:rgba(255,0,60,.3);box-shadow:0 0 20px rgba(255,0,60,.05);}
+
+/* ============================================================ SECTION LABEL */
+.section-label{font-family:'Share Tech Mono',monospace;font-size:.58rem;color:var(--text3);letter-spacing:3px;margin-bottom:.75rem;}
+
+/* ============================================================ NOTIFICATION */
+#notif{position:fixed;top:1rem;right:1rem;z-index:9999;padding:.65rem 1.1rem;border-radius:4px;font-size:.8rem;font-weight:600;display:none;animation:slideIn .3s ease;}
+#notif.success{background:rgba(0,255,136,.1);border:1px solid rgba(0,255,136,.3);color:var(--green);}
+#notif.error{background:rgba(255,0,60,.1);border:1px solid rgba(255,0,60,.3);color:var(--red);}
+#notif.info{background:rgba(68,136,255,.1);border:1px solid rgba(68,136,255,.3);color:var(--blue);}
+@keyframes slideIn{from{opacity:0;transform:translateX(20px);}to{opacity:1;transform:translateX(0);}}
+
+/* ============================================================ NAV */
+#main-nav{position:sticky;top:0;z-index:200;background:rgba(2,2,2,.96);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);display:none;align-items:center;justify-content:space-between;padding:0 1.5rem;height:54px;}
+#main-nav.visible{display:flex;}
+.nav-logo{font-weight:900;font-size:1rem;color:var(--text);text-decoration:none;display:flex;align-items:center;gap:.5rem;}
+.nav-logo img{height:26px;width:auto;}
+.nav-logo .accent{color:var(--red);}
+.nav-links{display:flex;align-items:center;gap:.2rem;flex-wrap:wrap;}
+.nav-btn{padding:.28rem .7rem;font-family:'Cairo',sans-serif;font-size:.75rem;font-weight:600;border-radius:3px;cursor:pointer;text-decoration:none;transition:all .2s;border:1px solid transparent;color:var(--text2);}
+.nav-btn:hover{color:var(--text);background:rgba(255,255,255,.04);}
+.nav-btn.active{color:var(--red);border-color:rgba(255,0,60,.3);background:rgba(255,0,60,.07);}
+.nav-home-btn{color:var(--text3);font-size:.75rem;padding:.28rem .6rem;text-decoration:none;border-radius:3px;transition:all .2s;}
+.nav-home-btn:hover{color:var(--text);background:rgba(255,255,255,.04);}
+
+/* ============================================================ LANDING */
+#landing{position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:1;overflow:hidden;padding:2rem;}
+.landing-glow{position:absolute;width:800px;height:800px;background:radial-gradient(ellipse,rgba(139,0,32,.08) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);animation:glowPulse 6s ease-in-out infinite;pointer-events:none;}
+@keyframes glowPulse{0%,100%{opacity:.4;transform:translate(-50%,-50%) scale(1);}50%{opacity:1;transform:translate(-50%,-50%) scale(1.12);}}
+
+/* Landing hero */
+.landing-hero-wrap{width:100%;max-width:880px;height:300px;border-radius:6px;margin-bottom:2rem;border:1px solid var(--border2);overflow:hidden;position:relative;z-index:2;}
+.landing-hero-ph{width:100%;height:100%;background:linear-gradient(135deg,#050505 0%,#0d0006 50%,#0a0000 100%);display:flex;align-items:center;justify-content:center;position:relative;}
+.landing-hero-ph::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 30px,rgba(139,0,32,.03) 30px,rgba(139,0,32,.03) 60px);}
+.landing-hero-ph span{font-family:'Share Tech Mono',monospace;color:var(--text3);font-size:.8rem;letter-spacing:3px;z-index:1;}
+.landing-hero-img{width:100%;height:100%;object-fit:cover;}
+
+/* 3D canvas */
+#hero-3d-canvas{position:absolute;inset:0;z-index:0;}
+
+.site-badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(139,0,32,.1);border:1px solid rgba(139,0,32,.3);border-radius:2px;padding:.35rem .9rem;font-family:'Share Tech Mono',monospace;font-size:.68rem;color:var(--neon2);letter-spacing:2px;margin-bottom:1.25rem;position:relative;z-index:2;}
+.site-badge::before{content:'▶';color:var(--red);animation:blink 1.5s step-end infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+.landing-logo-wrap{position:relative;z-index:2;margin-bottom:.75rem;}
+.logo-ph{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--maroon),var(--red));display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin:0 auto;box-shadow:0 0 30px rgba(255,0,60,.2);}
+.logo-img-el{height:72px;width:auto;display:none;margin:0 auto;}
+
+.landing-title{font-size:clamp(2.5rem,8vw,5rem);font-weight:900;line-height:1.1;margin-bottom:.6rem;position:relative;z-index:2;text-align:center;}
+.landing-title .c1{color:var(--red);}
+.landing-title .c2{color:var(--text);}
+.landing-sub{font-size:.9rem;color:var(--text2);margin-bottom:.4rem;position:relative;z-index:2;text-align:center;}
+.landing-version{font-family:'Share Tech Mono',monospace;font-size:.68rem;color:var(--text3);margin-bottom:.75rem;position:relative;z-index:2;}
+
+/* Social */
+.social-bar{display:flex;gap:.6rem;justify-content:center;margin-bottom:2rem;position:relative;z-index:2;flex-wrap:wrap;}
+.soc-btn{display:inline-flex;align-items:center;gap:.35rem;padding:.3rem .8rem;border-radius:3px;font-size:.75rem;font-weight:600;text-decoration:none;transition:all .2s;border:1px solid;}
+.soc-tg{color:#29b6f6;border-color:rgba(41,182,246,.25);background:rgba(41,182,246,.05);}
+.soc-tg:hover{background:rgba(41,182,246,.14);border-color:#29b6f6;}
+.soc-ig{color:#e91e8c;border-color:rgba(233,30,140,.25);background:rgba(233,30,140,.05);}
+.soc-ig:hover{background:rgba(233,30,140,.14);border-color:#e91e8c;}
+.soc-yt{color:#ff3d00;border-color:rgba(255,61,0,.25);background:rgba(255,61,0,.05);}
+.soc-yt:hover{background:rgba(255,61,0,.14);border-color:#ff3d00;}
+.soc-tw{color:#1da1f2;border-color:rgba(29,161,242,.25);background:rgba(29,161,242,.05);}
+.soc-tw:hover{background:rgba(29,161,242,.14);border-color:#1da1f2;}
+
+/* Landing sections grid */
+.sections-grid{display:grid;gap:.85rem;max-width:700px;width:100%;position:relative;z-index:2;}
+.sections-grid.cols-2{grid-template-columns:1fr 1fr;}
+.sections-grid.cols-3{grid-template-columns:1fr 1fr 1fr;}
+.section-card{padding:1.5rem 1.25rem;border:1px solid var(--border);border-radius:5px;cursor:pointer;transition:all .28s;text-decoration:none;display:block;text-align:center;position:relative;overflow:hidden;background:rgba(255,255,255,.01);}
+.section-card::before{content:'';position:absolute;inset:0;opacity:0;transition:opacity .3s;}
+.section-card.type-red{border-color:rgba(255,0,60,.2);}
+.section-card.type-red::before{background:radial-gradient(ellipse at center,rgba(255,0,60,.06),transparent 70%);}
+.section-card.type-red:hover{border-color:rgba(255,0,60,.5);transform:translateY(-3px);box-shadow:0 0 25px rgba(255,0,60,.1);}
+.section-card.type-red:hover::before{opacity:1;}
+.section-card.type-blue{border-color:rgba(68,136,255,.2);}
+.section-card.type-blue::before{background:radial-gradient(ellipse at center,rgba(68,136,255,.06),transparent 70%);}
+.section-card.type-blue:hover{border-color:rgba(68,136,255,.5);transform:translateY(-3px);box-shadow:0 0 25px rgba(68,136,255,.1);}
+.section-card.type-blue:hover::before{opacity:1;}
+.section-card.type-maroon{border-color:rgba(139,0,32,.3);}
+.section-card.type-maroon::before{background:radial-gradient(ellipse at center,rgba(139,0,32,.08),transparent 70%);}
+.section-card.type-maroon:hover{border-color:rgba(139,0,32,.6);transform:translateY(-3px);box-shadow:0 0 25px rgba(139,0,32,.12);}
+.section-card.type-maroon:hover::before{opacity:1;}
+.section-card.type-ctf{border-color:rgba(0,255,204,.2);}
+.section-card.type-ctf::before{background:radial-gradient(ellipse at center,rgba(0,255,204,.06),transparent 70%);}
+.section-card.type-ctf:hover{border-color:rgba(0,255,204,.5);transform:translateY(-3px);box-shadow:0 0 25px rgba(0,255,204,.1);}
+.section-card.type-ctf:hover::before{opacity:1;}
+.sc-icon{font-size:2.2rem;display:block;margin-bottom:.6rem;}
+.sc-label{font-family:'Share Tech Mono',monospace;font-size:.6rem;letter-spacing:3px;margin-bottom:.25rem;}
+.sc-title{font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:.3rem;}
+.sc-desc{font-size:.72rem;color:var(--text3);line-height:1.6;}
+.type-red .sc-label{color:var(--red);}
+.type-blue .sc-label{color:var(--blue);}
+.type-maroon .sc-label{color:#ff6680;}
+.type-ctf .sc-label{color:var(--cyan);}
+
+/* ============================================================ ROADMAP SECTIONS */
+.roadmap-section{display:none;position:relative;z-index:1;}
+.roadmap-section.active{display:block;}
+
+.section-hero{padding:4rem 2rem 3rem;text-align:center;position:relative;overflow:hidden;}
+.section-hero::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:50%;height:1px;background:linear-gradient(90deg,transparent,var(--border2),transparent);}
+.hero-tag{display:inline-block;font-family:'Share Tech Mono',monospace;font-size:.62rem;letter-spacing:4px;padding:.28rem .75rem;border-radius:2px;margin-bottom:1.1rem;}
+.rs-red .hero-tag{color:var(--red);background:rgba(255,0,60,.07);border:1px solid rgba(255,0,60,.2);}
+.rs-blue .hero-tag{color:var(--blue);background:rgba(68,136,255,.07);border:1px solid rgba(68,136,255,.2);}
+.rs-maroon .hero-tag{color:#ff6680;background:rgba(139,0,32,.1);border:1px solid rgba(139,0,32,.3);}
+.rs-ctf .hero-tag{color:var(--cyan);background:rgba(0,255,204,.07);border:1px solid rgba(0,255,204,.2);}
+
+.section-banner-wrap{width:100%;max-width:780px;height:180px;border-radius:5px;overflow:hidden;margin:0 auto 2rem;border:1px solid var(--border);}
+.section-banner-ph{width:100%;height:100%;background:linear-gradient(135deg,var(--bg2),var(--surface));display:flex;align-items:center;justify-content:center;}
+.section-banner-ph span{font-family:'Share Tech Mono',monospace;color:var(--text3);font-size:.65rem;letter-spacing:2px;}
+.section-banner-img{width:100%;height:100%;object-fit:cover;display:none;}
+
+.hero-title{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;margin-bottom:.6rem;line-height:1.15;}
+.rs-red .hero-title{color:var(--red);}
+.rs-blue .hero-title{color:var(--blue);}
+.rs-maroon .hero-title{color:#ff6680;}
+.rs-ctf .hero-title{color:var(--cyan);}
+.hero-desc{font-size:.83rem;color:var(--text2);max-width:620px;margin:0 auto 2rem;line-height:1.9;}
+.stats-row{display:flex;justify-content:center;gap:3rem;flex-wrap:wrap;}
+.stat-item{text-align:center;}
+.stat-num{font-family:'Rajdhani',sans-serif;font-size:2rem;font-weight:700;display:block;}
+.rs-red .stat-num{color:var(--red);}
+.rs-blue .stat-num{color:var(--blue);}
+.rs-maroon .stat-num{color:#ff6680;}
+.stat-label{font-size:.65rem;color:var(--text3);font-family:'Share Tech Mono',monospace;}
+
+.legend-bar{display:flex;justify-content:center;gap:1.25rem;flex-wrap:wrap;padding:.85rem 2rem;background:var(--bg2);border-bottom:1px solid var(--border);}
+.legend-item{display:flex;align-items:center;gap:.35rem;font-size:.68rem;color:var(--text3);}
+.leg-dot{width:7px;height:7px;border-radius:50%;}
+.leg-free{background:var(--green);}
+.leg-paid{background:var(--text3);}
+.leg-pwyw{background:var(--yellow);}
+
+/* PHASES */
+.phases-container{max-width:880px;margin:0 auto;padding:2rem 1.5rem 6rem;}
+.phase-block{margin-bottom:1.75rem;border:1px solid var(--border);border-radius:5px;overflow:hidden;background:var(--bg2);transition:border-color .3s;}
+.phase-block:hover{border-color:var(--border2);}
+.phase-header{display:flex;align-items:flex-start;justify-content:space-between;padding:1.1rem 1.35rem;cursor:pointer;gap:.85rem;border-bottom:1px solid transparent;transition:background .2s;}
+.phase-block.open .phase-header{border-bottom-color:var(--border);}
+.phase-header:hover{background:rgba(255,255,255,.015);}
+.phase-num-wrap{display:flex;align-items:flex-start;gap:.85rem;flex:1;}
+.phase-num{font-family:'Rajdhani',sans-serif;font-size:2.5rem;font-weight:700;line-height:1;flex-shrink:0;margin-top:-.1rem;}
+.rs-red .phase-num{color:rgba(255,0,60,.18);}
+.rs-blue .phase-num{color:rgba(68,136,255,.18);}
+.rs-maroon .phase-num{color:rgba(139,0,32,.25);}
+.phase-thumb{width:72px;height:54px;object-fit:cover;border-radius:3px;border:1px solid var(--border);flex-shrink:0;}
+.phase-thumb-ph{width:72px;height:54px;border-radius:3px;border:1px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.4rem;}
+.phase-info{flex:1;}
+.phase-title-el{font-size:.95rem;font-weight:700;color:var(--text);margin-bottom:.18rem;}
+.phase-meta{font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--text3);letter-spacing:1px;}
+.phase-dur{display:inline-block;padding:.1rem .4rem;border-radius:2px;margin-right:.35rem;font-size:.56rem;}
+.rs-red .phase-dur{background:rgba(255,0,60,.09);color:var(--red);border:1px solid rgba(255,0,60,.18);}
+.rs-blue .phase-dur{background:rgba(68,136,255,.09);color:var(--blue);border:1px solid rgba(68,136,255,.18);}
+.rs-maroon .phase-dur{background:rgba(139,0,32,.12);color:#ff6680;border:1px solid rgba(139,0,32,.25);}
+.phase-desc-short{font-size:.76rem;color:var(--text3);margin-top:.35rem;line-height:1.6;}
+.phase-toggle{font-size:1rem;color:var(--text3);flex-shrink:0;margin-top:.35rem;transition:transform .3s,color .2s;}
+.phase-block.open .phase-toggle{transform:rotate(180deg);}
+.rs-red .phase-block.open .phase-toggle{color:var(--red);}
+.rs-blue .phase-block.open .phase-toggle{color:var(--blue);}
+.rs-maroon .phase-block.open .phase-toggle{color:#ff6680;}
+.phase-body{display:none;}
+.phase-block.open .phase-body{display:block;}
+.phase-full-img{width:100%;height:180px;object-fit:cover;display:block;}
+.phase-full-ph{width:100%;height:130px;background:linear-gradient(135deg,var(--bg2),var(--surface));display:flex;align-items:center;justify-content:center;border-bottom:1px solid var(--border);}
+.phase-full-ph span{font-family:'Share Tech Mono',monospace;color:var(--text3);font-size:.6rem;letter-spacing:2px;}
+
+.courses-section{padding:1.1rem 1.35rem;border-bottom:1px solid var(--border);}
+.course-list{display:flex;flex-direction:column;gap:.4rem;}
+.course-item{display:flex;align-items:center;gap:.6rem;padding:.55rem .8rem;background:rgba(255,255,255,.015);border:1px solid var(--border);border-radius:3px;transition:all .2s;}
+.course-item:hover{background:rgba(255,255,255,.03);border-color:var(--border2);}
+.course-num{font-family:'Rajdhani',monospace;font-size:.75rem;font-weight:600;color:var(--text3);min-width:16px;flex-shrink:0;}
+.course-name{flex:1;font-size:.78rem;color:var(--text);}
+.course-link-btn{font-size:.65rem;color:rgba(0,255,204,.7);text-decoration:none;transition:color .2s;flex-shrink:0;font-family:'Share Tech Mono',monospace;}
+.course-link-btn:hover{color:var(--cyan);}
+
+.extras-row{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--border);}
+.extras-col{padding:1rem 1.35rem;}
+.extras-col:first-child{border-left:1px solid var(--border);}
+.extras-list{list-style:none;display:flex;flex-direction:column;gap:.3rem;}
+.extras-list li{font-size:.74rem;color:var(--text2);display:flex;align-items:center;gap:.3rem;}
+.extras-list li::before{content:'▸';color:var(--text3);font-size:.6rem;}
+.cert-link-el{color:rgba(0,255,204,.8);text-decoration:none;font-size:.74rem;transition:color .2s;display:flex;align-items:center;gap:.3rem;}
+.cert-link-el::before{content:'▸';color:var(--text3);font-size:.6rem;}
+.cert-link-el:hover{color:var(--cyan);}
+.cert-passed-el{color:var(--green);font-size:.74rem;display:flex;align-items:center;gap:.3rem;}
+.cert-passed-el::before{content:'✓';color:var(--green);}
+.phase-goal{padding:.8rem 1.35rem;font-size:.76rem;color:var(--text3);line-height:1.8;display:flex;align-items:flex-start;gap:.4rem;}
+.phase-goal::before{content:'◈';flex-shrink:0;margin-top:.1rem;}
+.rs-red .phase-goal::before{color:var(--red);}
+.rs-blue .phase-goal::before{color:var(--blue);}
+.rs-maroon .phase-goal::before{color:#ff6680;}
+
+/* ============================================================ WORKSHOPS */
+#workshops-section{display:none;position:relative;z-index:1;}
+#workshops-section.active{display:block;}
+.workshops-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;max-width:1000px;margin:0 auto;padding:2rem 1.5rem 6rem;}
+.workshop-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;overflow:hidden;cursor:pointer;transition:all .28s;}
+.workshop-card:hover{border-color:rgba(139,0,32,.4);transform:translateY(-3px);box-shadow:0 8px 30px rgba(0,0,0,.3);}
+.wc-img{width:100%;height:150px;object-fit:cover;display:block;}
+.wc-img-ph{width:100%;height:150px;background:linear-gradient(135deg,var(--bg2),var(--surface));display:flex;align-items:center;justify-content:center;}
+.wc-img-ph span{font-size:3rem;}
+.wc-body{padding:1rem 1.1rem;}
+.wc-title{font-size:.95rem;font-weight:700;margin-bottom:.4rem;}
+.wc-desc{font-size:.76rem;color:var(--text2);line-height:1.6;margin-bottom:.7rem;}
+.wc-meta{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;}
+.wc-instructor{font-size:.7rem;color:var(--text3);font-family:'Share Tech Mono',monospace;}
+
+/* Workshop Detail */
+#workshop-detail{display:none;position:relative;z-index:1;}
+#workshop-detail.active{display:block;}
+.wd-hero{padding:3rem 2rem 2rem;max-width:900px;margin:0 auto;}
+.wd-title{font-size:clamp(1.5rem,4vw,2.5rem);font-weight:900;color:#ff6680;margin-bottom:.5rem;}
+.wd-desc{font-size:.85rem;color:var(--text2);line-height:1.9;margin-bottom:1.5rem;}
+.wd-meta-bar{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:1.5rem;}
+.wd-meta-item{display:flex;align-items:center;gap:.3rem;font-size:.75rem;color:var(--text3);font-family:'Share Tech Mono',monospace;}
+.wd-tabs{display:flex;border-bottom:1px solid var(--border);padding:0 2rem;max-width:900px;margin:0 auto;overflow-x:auto;}
+.wd-tab{padding:.65rem 1rem;font-size:.78rem;font-weight:600;color:var(--text3);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap;}
+.wd-tab.active{color:#ff6680;border-bottom-color:#ff6680;}
+.wd-tab:hover{color:var(--text);}
+.wd-content{max-width:900px;margin:0 auto;padding:1.5rem 2rem 5rem;}
+.wd-pane{display:none;}
+.wd-pane.active{display:block;}
+
+/* ============================================================ CTF */
+#ctf-section{display:none;position:relative;z-index:1;}
+#ctf-section.active{display:block;}
+.ctf-hero{padding:3.5rem 2rem 2rem;text-align:center;}
+.ctf-title{font-size:clamp(2rem,5vw,3.5rem);font-weight:900;color:var(--cyan);margin-bottom:.5rem;}
+.ctf-sub{font-size:.85rem;color:var(--text2);}
+.ctf-scoreboard-btn{margin-top:1rem;}
+
+/* CTF Stats bar */
+.ctf-stats{display:flex;justify-content:center;gap:2rem;margin:1.5rem 0;flex-wrap:wrap;}
+.ctf-stat{text-align:center;}
+.ctf-stat-num{font-family:'Rajdhani',sans-serif;font-size:2rem;font-weight:700;color:var(--cyan);display:block;}
+.ctf-stat-label{font-size:.62rem;color:var(--text3);font-family:'Share Tech Mono',monospace;}
+
+.ctf-challenges{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;max-width:1000px;margin:0 auto;padding:0 1.5rem 2rem;}
+.ctf-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:1.25rem;transition:all .28s;cursor:pointer;position:relative;overflow:hidden;}
+.ctf-card::before{content:'';position:absolute;top:0;right:0;width:3px;height:100%;background:var(--cyan);opacity:.4;transition:opacity .2s;}
+.ctf-card:hover{border-color:rgba(0,255,204,.3);transform:translateY(-2px);box-shadow:0 6px 25px rgba(0,0,0,.25);}
+.ctf-card:hover::before{opacity:1;}
+.ctf-card.solved{border-color:rgba(0,255,136,.3);}
+.ctf-card.solved::before{background:var(--green);opacity:.8;}
+.ctf-card-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.6rem;}
+.ctf-card-title{font-size:.9rem;font-weight:700;color:var(--text);}
+.ctf-points{font-family:'Rajdhani',sans-serif;font-size:1.2rem;font-weight:700;color:var(--cyan);}
+.ctf-card-desc{font-size:.76rem;color:var(--text2);line-height:1.6;margin-bottom:.85rem;}
+.ctf-solved-badge{font-size:.68rem;color:var(--green);font-family:'Share Tech Mono',monospace;display:flex;align-items:center;gap:.3rem;}
+
+/* CTF Modal */
+#ctf-modal{display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.88);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:1rem;}
+#ctf-modal.open{display:flex;}
+.ctf-modal-box{background:var(--bg2);border:1px solid rgba(0,255,204,.2);border-radius:6px;width:100%;max-width:560px;overflow:hidden;}
+.ctf-modal-header{padding:1.1rem 1.35rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.ctf-modal-title{font-size:1rem;font-weight:700;color:var(--cyan);}
+.ctf-modal-body{padding:1.35rem;}
+.ctf-timer{font-family:'Share Tech Mono',monospace;font-size:1.5rem;color:var(--yellow);text-align:center;margin-bottom:1rem;padding:.5rem;background:rgba(255,204,0,.05);border:1px solid rgba(255,204,0,.15);border-radius:4px;}
+.ctf-flag-input-wrap{display:flex;gap:.5rem;margin-bottom:.85rem;}
+.ctf-flag-input{flex:1;background:var(--surface);border:1px solid var(--border2);border-radius:3px;padding:.55rem .85rem;color:var(--cyan);font-family:'Share Tech Mono',monospace;font-size:.85rem;outline:none;}
+.ctf-flag-input:focus{border-color:var(--cyan);}
+.ctf-feedback{font-size:.8rem;padding:.5rem .75rem;border-radius:3px;display:none;margin-bottom:.85rem;}
+.ctf-feedback.ok{background:rgba(0,255,136,.08);border:1px solid rgba(0,255,136,.2);color:var(--green);}
+.ctf-feedback.fail{background:rgba(255,0,60,.08);border:1px solid rgba(255,0,60,.2);color:var(--red);}
+
+/* Hint system */
+.hint-item{background:rgba(255,204,0,.04);border:1px solid rgba(255,204,0,.12);border-radius:3px;padding:.6rem .85rem;margin-bottom:.5rem;font-size:.78rem;color:var(--yellow);}
+
+/* Leaderboard */
+#leaderboard-modal{display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.88);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:1rem;}
+#leaderboard-modal.open{display:flex;}
+.lb-box{background:var(--bg2);border:1px solid rgba(0,255,204,.2);border-radius:6px;width:100%;max-width:480px;}
+.lb-row{display:flex;align-items:center;gap:.75rem;padding:.65rem 1.1rem;border-bottom:1px solid var(--border);}
+.lb-rank{font-family:'Rajdhani',sans-serif;font-size:1.2rem;font-weight:700;color:var(--text3);min-width:28px;}
+.lb-rank.gold{color:var(--yellow);}
+.lb-rank.silver{color:#aaa;}
+.lb-rank.bronze{color:#cd7f32;}
+.lb-name{flex:1;font-size:.85rem;}
+.lb-score{font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;color:var(--cyan);}
+
+/* ============================================================ LABS */
+.labs-container{max-width:900px;margin:0 auto;padding:1.5rem 1.5rem 5rem;}
+.lab-block{background:var(--bg2);border:1px solid var(--border);border-radius:5px;margin-bottom:1rem;overflow:hidden;transition:border-color .3s;}
+.lab-block:hover{border-color:var(--border2);}
+.lab-header{padding:1rem 1.25rem;cursor:pointer;display:flex;align-items:center;gap:.75rem;justify-content:space-between;transition:background .2s;}
+.lab-header:hover{background:rgba(255,255,255,.015);}
+.lab-icon{font-size:1.4rem;flex-shrink:0;}
+.lab-info{flex:1;}
+.lab-title{font-size:.9rem;font-weight:700;margin-bottom:.15rem;}
+.lab-desc-short{font-size:.74rem;color:var(--text3);}
+.lab-type-badge{font-family:'Share Tech Mono',monospace;font-size:.58rem;padding:.1rem .4rem;border-radius:2px;border:1px solid;flex-shrink:0;}
+.lab-body{display:none;border-top:1px solid var(--border);}
+.lab-block.open .lab-body{display:block;}
+.lab-content{padding:1.1rem 1.25rem;}
+.lab-instructions{font-size:.8rem;color:var(--text2);line-height:1.8;margin-bottom:1rem;padding:.75rem 1rem;background:rgba(255,255,255,.02);border-radius:3px;border-right:3px solid var(--maroon);}
+.lab-editor{width:100%;min-height:140px;background:var(--surface);border:1px solid var(--border2);border-radius:3px;padding:.75rem;color:#00ffaa;font-family:'Share Tech Mono',monospace;font-size:.8rem;resize:vertical;outline:none;line-height:1.7;}
+.lab-editor:focus{border-color:var(--maroon);}
+.lab-actions{display:flex;gap:.5rem;margin-top:.6rem;align-items:center;}
+.lab-output{margin-top:.75rem;padding:.75rem 1rem;background:rgba(0,0,0,.4);border:1px solid var(--border);border-radius:3px;font-family:'Share Tech Mono',monospace;font-size:.78rem;min-height:60px;display:none;color:var(--green);}
+.lab-output.error{color:var(--red);}
+.lab-output.visible{display:block;}
+
+/* ============================================================ PDF CERT */
+#cert-modal{display:none;position:fixed;inset:0;z-index:600;background:rgba(0,0,0,.92);backdrop-filter:blur(10px);align-items:center;justify-content:center;padding:1rem;}
+#cert-modal.open{display:flex;}
+.cert-box{background:var(--bg2);border:1px solid rgba(255,0,60,.2);border-radius:6px;width:100%;max-width:520px;}
+.cert-header{padding:1.1rem 1.35rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
+.cert-header h3{font-size:.95rem;color:var(--red);}
+.cert-body{padding:1.35rem;}
+.cert-preview{background:linear-gradient(135deg,#0a0000,#1a0010);border:1px solid rgba(255,0,60,.2);border-radius:4px;padding:1.5rem;text-align:center;margin-bottom:1.25rem;position:relative;overflow:hidden;}
+.cert-preview::before{content:'';position:absolute;inset:6px;border:1px solid rgba(255,0,60,.15);border-radius:3px;pointer-events:none;}
+.cert-preview-logo{font-size:2rem;display:block;margin-bottom:.4rem;}
+.cert-preview-title{font-family:'Share Tech Mono',monospace;font-size:.62rem;letter-spacing:4px;color:var(--text3);margin-bottom.5rem;}
+.cert-preview-name{font-size:1.4rem;font-weight:900;color:var(--red);margin:.5rem 0;}
+.cert-preview-course{font-size:.82rem;color:var(--text2);margin-bottom:.5rem;}
+.cert-preview-date{font-family:'Share Tech Mono',monospace;font-size:.62rem;color:var(--text3);}
+#cert-qr{margin:.75rem auto 0;width:64px;height:64px;}
+.cert-footer-preview{display:flex;justify-content:space-between;align-items:flex-end;margin-top:1rem;font-size:.62rem;color:var(--text3);font-family:'Share Tech Mono',monospace;}
+
+/* ============================================================ AI ASSISTANT */
+#ai-widget{position:fixed;bottom:1.5rem;right:1.5rem;z-index:300;}
+.ai-fab{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,var(--maroon),var(--red));border:none;color:#fff;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 0 20px rgba(255,0,60,.25);transition:all .2s;}
+.ai-fab:hover{transform:scale(1.08);box-shadow:0 0 30px rgba(255,0,60,.35);}
+#ai-panel{display:none;position:absolute;bottom:58px;right:0;width:340px;background:var(--bg2);border:1px solid rgba(255,0,60,.2);border-radius:6px;overflow:hidden;box-shadow:0 10px 40px rgba(0,0,0,.5);}
+#ai-panel.open{display:block;}
+.ai-panel-header{padding:.85rem 1rem;background:linear-gradient(135deg,rgba(139,0,32,.15),rgba(255,0,60,.08));border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
+.ai-panel-title{font-size:.85rem;font-weight:700;color:var(--red);}
+.ai-panel-sub{font-size:.62rem;color:var(--text3);}
+.ai-messages{height:300px;overflow-y:auto;padding:.75rem;display:flex;flex-direction:column;gap:.6rem;}
+.ai-msg{padding:.6rem .8rem;border-radius:4px;font-size:.78rem;line-height:1.6;max-width:88%;}
+.ai-msg.user{background:rgba(139,0,32,.15);border:1px solid rgba(139,0,32,.2);color:var(--text);align-self:flex-start;}
+.ai-msg.bot{background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--text2);align-self:flex-end;}
+.ai-msg.thinking{color:var(--text3);font-family:'Share Tech Mono',monospace;font-size:.7rem;}
+.ai-input-wrap{padding:.75rem;border-top:1px solid var(--border);display:flex;gap:.4rem;}
+.ai-input{flex:1;background:var(--surface);border:1px solid var(--border2);border-radius:3px;padding:.45rem .7rem;color:var(--text);font-family:'Cairo',sans-serif;font-size:.78rem;outline:none;}
+.ai-input:focus{border-color:var(--maroon);}
+.ai-send-btn{background:rgba(255,0,60,.12);border:1px solid rgba(255,0,60,.25);color:var(--red);border-radius:3px;width:32px;height:32px;cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0;}
+.ai-send-btn:hover{background:rgba(255,0,60,.22);}
+.ai-quick-btns{display:flex;gap:.3rem;padding:.4rem .75rem;border-top:1px solid var(--border);flex-wrap:wrap;}
+.ai-quick{font-size:.62rem;padding:.2rem .45rem;border-radius:2px;background:rgba(255,255,255,.04);border:1px solid var(--border2);color:var(--text3);cursor:pointer;transition:all .2s;font-family:'Cairo',sans-serif;}
+.ai-quick:hover{color:var(--text);border-color:var(--border2);background:rgba(255,255,255,.07);}
+
+/* ============================================================ ADMIN FAB */
+#admin-fab{position:fixed;bottom:1.5rem;left:1.5rem;z-index:300;width:42px;height:42px;border-radius:50%;background:rgba(139,0,32,.1);border:1px solid rgba(139,0,32,.3);color:#ff6680;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;opacity:.45;}
+#admin-fab:hover{opacity:1;background:rgba(139,0,32,.2);box-shadow:0 0 18px rgba(139,0,32,.2);}
+
+/* ============================================================ ADMIN MODAL */
+#admin-modal{display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.9);backdrop-filter:blur(8px);align-items:flex-start;justify-content:center;overflow-y:auto;padding:1rem;}
+#admin-modal.open{display:flex;}
+.admin-box{background:#070707;border:1px solid var(--border2);border-radius:7px;width:100%;max-width:860px;margin:auto;}
+.admin-header{display:flex;align-items:center;justify-content:space-between;padding:1.1rem 1.4rem;border-bottom:1px solid var(--border);}
+.admin-header h2{font-size:.95rem;font-weight:700;color:#ff6680;}
+.admin-close-btn{background:none;border:none;color:var(--text3);font-size:1.2rem;cursor:pointer;transition:color .2s;padding:.2rem .4rem;}
+.admin-close-btn:hover{color:var(--text);}
+#admin-login-pane{padding:2rem;text-align:center;}
+#admin-login-pane h3{color:var(--text2);margin-bottom:1rem;font-size:.88rem;}
+.pass-wrap{display:flex;gap:.5rem;max-width:320px;margin:0 auto;}
+.pass-err{color:var(--red);font-size:.75rem;margin-top:.5rem;}
+.admin-tabs-wrap{display:flex;border-bottom:1px solid var(--border);overflow-x:auto;}
+.a-tab{padding:.65rem 1rem;font-size:.75rem;font-weight:600;color:var(--text3);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap;flex-shrink:0;}
+.a-tab.active{color:#ff6680;border-bottom-color:#ff6680;}
+.a-tab:hover{color:var(--text);}
+.admin-content{padding:1.1rem 1.4rem;}
+.a-pane{display:none;}
+.a-pane.active{display:block;}
+.a-section-title{font-family:'Share Tech Mono',monospace;font-size:.57rem;color:var(--text3);letter-spacing:3px;margin-bottom:.85rem;padding-bottom:.45rem;border-bottom:1px solid var(--border);}
+.admin-save-bar{display:flex;align-items:center;justify-content:flex-end;gap:.75rem;padding:.85rem 1.4rem;background:rgba(0,255,136,.03);border-top:1px solid rgba(0,255,136,.1);}
+.save-ok{font-size:.74rem;color:var(--green);display:none;}
+
+/* Phase editor in admin */
+.pe-item{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:.85rem;margin-bottom:.6rem;}
+.pe-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:0;}
+.pe-title{font-size:.82rem;font-weight:700;color:var(--text);}
+.pe-actions{display:flex;gap:.3rem;}
+.pe-body{display:none;margin-top:.75rem;}
+.pe-item.expanded .pe-body{display:block;}
+.course-ed-item{display:flex;align-items:center;gap:.45rem;padding:.45rem .7rem;background:rgba(255,255,255,.015);border:1px solid var(--border);border-radius:3px;margin-bottom:.35rem;}
+.course-ed-name{flex:1;font-size:.75rem;color:var(--text2);}
+
+/* Image upload */
+.img-upload-zone{border:1px dashed var(--border2);border-radius:4px;padding:1.25rem;text-align:center;cursor:pointer;transition:all .2s;position:relative;overflow:hidden;}
+.img-upload-zone:hover{border-color:var(--maroon);background:rgba(139,0,32,.03);}
+.img-upload-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;}
+.img-upload-icon{font-size:1.6rem;color:var(--text3);margin-bottom:.35rem;}
+.img-upload-text{font-size:.72rem;color:var(--text3);}
+.img-prev{width:100%;height:90px;object-fit:cover;border-radius:3px;display:block;margin-bottom:.45rem;}
+
+/* Section manager */
+.section-mgr-item{display:flex;align-items:center;gap:.65rem;padding:.65rem .9rem;background:var(--surface);border:1px solid var(--border);border-radius:4px;margin-bottom:.4rem;}
+.smgr-icon{font-size:1.2rem;flex-shrink:0;}
+.smgr-info{flex:1;}
+.smgr-name{font-size:.82rem;font-weight:700;}
+.smgr-type{font-size:.62rem;color:var(--text3);font-family:'Share Tech Mono',monospace;}
+.smgr-actions{display:flex;gap:.3rem;}
+
+/* Workshop editor in admin */
+.ws-ed-item{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:.85rem;margin-bottom:.6rem;}
+.ws-ed-head{display:flex;align-items:center;justify-content:space-between;}
+.ws-ed-title{font-size:.82rem;font-weight:700;}
+.ws-ed-actions{display:flex;gap:.3rem;}
+
+/* CTF admin */
+.ctf-ed-item{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:.85rem;margin-bottom:.6rem;}
+.ctf-ed-head{display:flex;align-items:center;justify-content:space-between;}
+
+/* 3D section */
+.model-viewer-wrap{width:100%;height:400px;position:relative;background:radial-gradient(ellipse at center,#0a0005,var(--bg));border:1px solid var(--border);border-radius:5px;overflow:hidden;margin-bottom:1rem;}
+#three-canvas{width:100%;height:100%;}
+.model-controls{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem;}
+
+/* Mini course add modal */
+#course-mini-modal{display:none;position:fixed;inset:0;z-index:1100;background:rgba(0,0,0,.8);align-items:center;justify-content:center;padding:1rem;}
+#course-mini-modal.open{display:flex;}
+.mini-box{background:#070707;border:1px solid var(--border2);border-radius:5px;width:100%;max-width:420px;padding:1.2rem;}
+.mini-box h3{font-size:.88rem;color:#ff6680;margin-bottom:.9rem;}
+.mini-actions{display:flex;gap:.45rem;justify-content:flex-end;margin-top:.9rem;}
+
+/* Add section modal */
+#section-add-modal{display:none;position:fixed;inset:0;z-index:1100;background:rgba(0,0,0,.8);align-items:center;justify-content:center;padding:1rem;}
+#section-add-modal.open{display:flex;}
+
+/* Workshop add modal */
+#ws-add-modal{display:none;position:fixed;inset:0;z-index:1100;background:rgba(0,0,0,.8);align-items:center;justify-content:center;padding:1rem;overflow-y:auto;}
+#ws-add-modal.open{display:flex;}
+.ws-add-box{background:#070707;border:1px solid var(--border2);border-radius:5px;width:100%;max-width:560px;padding:1.2rem;margin:auto;}
+
+/* CTF add modal */
+#ctf-add-modal{display:none;position:fixed;inset:0;z-index:1100;background:rgba(0,0,0,.8);align-items:center;justify-content:center;padding:1rem;}
+#ctf-add-modal.open{display:flex;}
+
+/* Footer */
+footer{position:relative;z-index:1;text-align:center;padding:1.75rem;border-top:1px solid var(--border);background:var(--bg2);}
+.footer-logo-el{height:44px;width:auto;margin:0 auto .45rem;display:block;}
+.footer-logo-ph{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--maroon),var(--red));display:flex;align-items:center;justify-content:center;margin:0 auto .45rem;font-size:1.4rem;}
+.footer-brand{font-weight:900;font-size:.9rem;color:var(--text);margin-bottom:.2rem;}
+.footer-brand span{color:var(--red);}
+.footer-sub{font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--text3);margin-bottom:.85rem;}
+.footer-soc{display:flex;gap:.45rem;justify-content:center;flex-wrap:wrap;}
+
+@media(max-width:640px){
+  .sections-grid.cols-2,.sections-grid.cols-3{grid-template-columns:1fr;}
+  .extras-row{grid-template-columns:1fr;}
+  .extras-col:first-child{border-left:none;border-top:1px solid var(--border);}
+  .form-row,.form-row-3{grid-template-columns:1fr;}
+  #ai-panel{width:280px;}
+  .phases-container,.labs-container{padding-left:.75rem;padding-right:.75rem;}
+}
+</style>
+</head>
+<body>
+
+<div id="notif"></div>
+
+<!-- ADMIN FAB -->
+<button id="admin-fab" onclick="openAdmin()" title="لوحة التحكم">⚙</button>
+
+<!-- AI WIDGET -->
+<div id="ai-widget">
+  <div id="ai-panel">
+    <div class="ai-panel-header">
+      <div>
+        <div class="ai-panel-title">🤖 مساعد السايبر تيم</div>
+        <div class="ai-panel-sub">يشرح ويساعدك في التعلم</div>
+      </div>
+      <button class="btn btn-xs btn-danger" onclick="toggleAI()">✕</button>
+    </div>
+    <div class="ai-messages" id="ai-messages">
+      <div class="ai-msg bot">مرحباً! أنا مساعدك في الأمن السيبراني. اسألني عن أي موضوع في Red Team أو Blue Team أو الكورسات 🛡</div>
+    </div>
+    <div class="ai-quick-btns">
+      <span class="ai-quick" onclick="aiQuick('ما هو Red Team؟')">Red Team؟</span>
+      <span class="ai-quick" onclick="aiQuick('كيف أبدأ تعلم الأمن السيبراني؟')">من أين أبدأ؟</span>
+      <span class="ai-quick" onclick="aiQuick('ما الفرق بين Red Team وBlue Team؟')">الفرق؟</span>
+    </div>
+    <div class="ai-input-wrap">
+      <input class="ai-input" id="ai-input" placeholder="اسأل سؤالك هنا..." onkeydown="if(event.key==='Enter')sendAI()">
+      <button class="ai-send-btn" onclick="sendAI()">↑</button>
+    </div>
+  </div>
+  <button class="ai-fab" onclick="toggleAI()">🤖</button>
+</div>
+
+<!-- ============================================================ LANDING -->
+<section id="landing" class="z1">
+  <div class="landing-glow"></div>
+
+  <div class="landing-hero-wrap">
+    <div class="landing-hero-ph" id="landing-hero-ph">
+      <canvas id="hero-3d-canvas"></canvas>
+      <span id="landing-hero-ph-txt" style="position:relative;z-index:2;display:none;">HERO IMAGE</span>
+    </div>
+    <img class="landing-hero-img" id="landing-hero-img" src="" alt="" style="display:none;width:100%;height:100%;object-fit:cover;">
+  </div>
+
+  <div class="site-badge" id="badge-el">CYBER TEAM — خارطة الأمن السيبراني</div>
+
+  <div class="landing-logo-wrap">
+    <div class="logo-ph" id="logo-ph">🛡</div>
+    <img class="logo-img-el" id="logo-img" src="" alt="">
+  </div>
+
+  <h1 class="landing-title">
+    <span class="c1" id="title-c1-el">السايبر</span><br>
+    <span class="c2" id="title-c2-el">تيم</span>
+  </h1>
+  <p class="landing-sub" id="landing-sub-el">خارطة طريق الأمن السيبراني — Red Team & Blue Team</p>
+  <p class="landing-version" id="landing-version-el">إصدار أبريل 2026</p>
+
+  <div class="social-bar" id="social-bar-el"></div>
+
+  <div class="sections-grid" id="sections-grid-el"></div>
+</section>
+
+<!-- NAV -->
+<nav id="main-nav">
+  <a class="nav-logo" href="#" onclick="goHome();return false;">
+    <img id="nav-logo-img" src="" alt="" style="display:none;height:24px;">
+    <span id="nav-logo-txt">السايبر<span class="accent">تيم</span></span>
+  </a>
+  <div class="nav-links" id="nav-links-el">
+    <a class="nav-home-btn" href="#" onclick="goHome();return false;">الرئيسية</a>
+  </div>
+</nav>
+
+<!-- DYNAMIC ROADMAP SECTIONS (rendered by JS) -->
+<div id="dynamic-sections"></div>
+
+<!-- WORKSHOPS SECTION -->
+<div id="workshops-section">
+  <div class="section-hero rs-maroon">
+    <div class="hero-tag">🔬 WORKSHOPS · أبريل 2026</div>
+    <div class="section-banner-wrap">
+      <div class="section-banner-ph" id="ws-banner-ph"><span>WORKSHOPS BANNER</span></div>
+      <img class="section-banner-img" id="ws-banner-img" src="" alt="">
+    </div>
+    <h2 class="hero-title">الورشات التدريبية</h2>
+    <p class="hero-desc">ورشات تدريبية متخصصة في الأمن السيبراني مع labs تفاعلية وشهادات إتمام</p>
+    <div class="stats-row">
+      <div class="stat-item"><span class="stat-num" id="ws-count">0</span><span class="stat-label">ورشة</span></div>
+      <div class="stat-item"><span class="stat-num" id="ws-labs-count">0</span><span class="stat-label">Lab تفاعلي</span></div>
+    </div>
+  </div>
+  <div class="workshops-grid" id="workshops-grid-el"></div>
+</div>
+
+<!-- WORKSHOP DETAIL -->
+<div id="workshop-detail">
+  <div class="wd-hero">
+    <button class="btn btn-sm btn-maroon" onclick="closeWorkshop()" style="margin-bottom:1rem;">← رجوع للورشات</button>
+    <h1 class="wd-title" id="wd-title-el"></h1>
+    <p class="wd-desc" id="wd-desc-el"></p>
+    <div class="wd-meta-bar" id="wd-meta-bar-el"></div>
+  </div>
+  <div class="wd-tabs" id="wd-tabs-el"></div>
+  <div class="wd-content" id="wd-content-el"></div>
+</div>
+
+<!-- CTF SECTION -->
+<div id="ctf-section">
+  <div class="ctf-hero">
+    <div class="hero-tag rs-ctf" style="display:inline-block;font-family:'Share Tech Mono',monospace;font-size:.62rem;letter-spacing:4px;padding:.28rem .75rem;border-radius:2px;margin-bottom:1.1rem;color:var(--cyan);background:rgba(0,255,204,.07);border:1px solid rgba(0,255,204,.2);">💀 CTF CHALLENGES</div>
+    <h1 class="ctf-title">CTF Challenges</h1>
+    <p class="ctf-sub">تحديات الأمن السيبراني — اكسر الأنظمة واكسب النقاط</p>
+    <div class="ctf-stats">
+      <div class="ctf-stat"><span class="ctf-stat-num" id="ctf-total">0</span><span class="ctf-stat-label">CHALLENGE</span></div>
+      <div class="ctf-stat"><span class="ctf-stat-num" id="ctf-solved-count">0</span><span class="ctf-stat-label">SOLVED</span></div>
+      <div class="ctf-stat"><span class="ctf-stat-num" id="ctf-total-pts">0</span><span class="ctf-stat-label">POINTS</span></div>
+    </div>
+    <div style="display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;">
+      <button class="btn btn-cyan" onclick="openLeaderboard()">🏆 Leaderboard</button>
+      <input class="form-control" id="ctf-player-name" placeholder="اسمك للـ Leaderboard" style="max-width:200px;display:inline-block;">
+    </div>
+  </div>
+
+  <div class="ctf-challenges" id="ctf-challenges-el"></div>
+</div>
+
+<!-- CTF CHALLENGE MODAL -->
+<div id="ctf-modal">
+  <div class="ctf-modal-box">
+    <div class="ctf-modal-header">
+      <div class="ctf-modal-title" id="ctf-m-title"></div>
+      <button class="btn btn-xs btn-danger" onclick="closeCTF()">✕</button>
+    </div>
+    <div class="ctf-modal-body">
+      <div class="ctf-timer" id="ctf-timer">00:00</div>
+      <p style="font-size:.78rem;color:var(--text2);line-height:1.7;margin-bottom:.85rem;" id="ctf-m-desc"></p>
+      <div id="ctf-m-hints"></div>
+      <div class="ctf-feedback" id="ctf-feedback"></div>
+      <div class="ctf-flag-input-wrap">
+        <input class="ctf-flag-input" id="ctf-flag-input" placeholder="FLAG{...}" onkeydown="if(event.key==='Enter')submitFlag()">
+        <button class="btn btn-cyan" onclick="submitFlag()">تحقق</button>
+      </div>
+      <div style="display:flex;gap:.5rem;flex-wrap:wrap;">
+        <button class="btn btn-sm btn-warn" onclick="getAIHint()">🤖 تلميح من AI</button>
+        <button class="btn btn-sm btn-maroon" id="gen-cert-ctf-btn" style="display:none;" onclick="openCertModal(activeCTF)">🎓 شهادة</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- LEADERBOARD MODAL -->
+<div id="leaderboard-modal">
+  <div class="lb-box">
+    <div class="ctf-modal-header">
+      <div class="ctf-modal-title" style="color:var(--yellow);">🏆 Leaderboard</div>
+      <button class="btn btn-xs btn-danger" onclick="document.getElementById('leaderboard-modal').classList.remove('open')">✕</button>
+    </div>
+    <div id="leaderboard-rows" style="max-height:400px;overflow-y:auto;"></div>
+  </div>
+</div>
+
+<!-- CERT MODAL -->
+<div id="cert-modal">
+  <div class="cert-box">
+    <div class="cert-header">
+      <h3>🎓 شهادة إتمام</h3>
+      <button class="btn btn-xs btn-danger" onclick="closeCertModal()">✕</button>
+    </div>
+    <div class="cert-body">
+      <div class="cert-preview">
+        <span class="cert-preview-logo" id="cp-logo">🛡</span>
+        <div class="cert-preview-title" id="cp-site-name">CYBER TEAM</div>
+        <div style="font-size:.72rem;color:var(--text3);margin-bottom:.35rem;">شهادة إتمام</div>
+        <div class="cert-preview-name" id="cp-name">اسم الطالب</div>
+        <div class="cert-preview-course" id="cp-course">اسم الكورس</div>
+        <div class="cert-preview-date" id="cp-date"></div>
+        <div id="cert-qr" style="margin:.6rem auto 0;width:64px;height:64px;"></div>
+        <div class="cert-footer-preview">
+          <span id="cp-verify">verify.cyberteam.io</span>
+          <span id="cp-sig" style="border-top:1px solid rgba(255,0,60,.3);padding-top:.2rem;">التوقيع</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">اسمك الكامل</label>
+        <input class="form-control" id="cert-student-name" placeholder="الاسم الكامل">
+      </div>
+      <div id="cert-sig-wrap" style="margin-bottom:.75rem;">
+        <div class="form-label">صورة التوقيع (اختياري)</div>
+        <div class="img-upload-zone" style="padding:.85rem;">
+          <input type="file" accept="image/*" onchange="handleSigUpload(this)">
+          <div class="img-upload-icon">✍</div>
+          <div class="img-upload-text">ارفع صورة التوقيع</div>
+        </div>
+      </div>
+      <button class="btn btn-primary btn-lg w-full" onclick="downloadCert()" style="justify-content:center;">⬇ تحميل الشهادة PDF</button>
+    </div>
+  </div>
+</div>
+
+<!-- COURSE MINI MODAL -->
+<div id="course-mini-modal">
+  <div class="mini-box">
+    <h3 id="course-mini-title">إضافة / تعديل كورس</h3>
+    <div class="form-group">
+      <label class="form-label">اسم الكورس</label>
+      <input class="form-control" id="cm-name">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">النوع</label>
+        <select class="form-control" id="cm-type">
+          <option value="free">مجاني</option>
+          <option value="paid">مشترك</option>
+          <option value="pwyw">PWYW</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">رابط الكورس</label>
+        <input class="form-control" id="cm-link" placeholder="https://...">
+      </div>
+    </div>
+    <div class="mini-actions">
+      <button class="btn btn-sm btn-danger" onclick="closeCourseModal()">إلغاء</button>
+      <button class="btn btn-sm btn-success" onclick="saveCourse()">حفظ</button>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION ADD MODAL -->
+<div id="section-add-modal">
+  <div class="mini-box">
+    <h3>إضافة قسم جديد</h3>
+    <div class="form-group">
+      <label class="form-label">اسم القسم</label>
+      <input class="form-control" id="sa-name" placeholder="مثال: Purple Team">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">الأيقونة</label>
+        <input class="form-control" id="sa-icon" placeholder="⚔️">
+      </div>
+      <div class="form-group">
+        <label class="form-label">نوع القسم</label>
+        <select class="form-control" id="sa-type">
+          <option value="red">Red (هجومي)</option>
+          <option value="blue">Blue (دفاعي)</option>
+          <option value="maroon">Maroon (متقدم)</option>
+        </select>
+      </div>
+    </div>
+    <div class="mini-actions">
+      <button class="btn btn-sm btn-danger" onclick="closeSectionModal()">إلغاء</button>
+      <button class="btn btn-sm btn-success" onclick="addSection()">إضافة</button>
+    </div>
+  </div>
+</div>
+
+<!-- WORKSHOP ADD MODAL -->
+<div id="ws-add-modal">
+  <div class="ws-add-box">
+    <h3 style="color:#ff6680;margin-bottom:1rem;" id="ws-modal-title">إضافة ورشة</h3>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">عنوان الورشة</label>
+        <input class="form-control" id="ws-title-inp">
+      </div>
+      <div class="form-group">
+        <label class="form-label">الأيقونة</label>
+        <input class="form-control" id="ws-icon-inp" placeholder="🔐">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">الوصف</label>
+      <textarea class="form-control" id="ws-desc-inp"></textarea>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">المستوى</label>
+        <select class="form-control" id="ws-level-inp">
+          <option value="beginner">Beginner</option>
+          <option value="advanced">Advanced</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">المدة</label>
+        <input class="form-control" id="ws-dur-inp" placeholder="مثال: 4 ساعات">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">المدرب</label>
+      <input class="form-control" id="ws-instr-inp">
+    </div>
+    <div class="form-group">
+      <label class="form-label">محتوى Overview</label>
+      <textarea class="form-control" id="ws-overview-inp" placeholder="وصف تفصيلي للورشة..."></textarea>
+    </div>
+    <div class="form-group">
+      <label class="form-label">الموارد (كل مورد في سطر)</label>
+      <textarea class="form-control" id="ws-resources-inp" placeholder="https://..."></textarea>
+    </div>
+    <div class="mini-actions">
+      <button class="btn btn-sm btn-danger" onclick="closeWSModal()">إلغاء</button>
+      <button class="btn btn-sm btn-success" onclick="saveWorkshop()">حفظ</button>
+    </div>
+  </div>
+</div>
+
+<!-- CTF ADD MODAL -->
+<div id="ctf-add-modal">
+  <div class="mini-box" style="max-width:480px;">
+    <h3 style="color:var(--cyan);margin-bottom:1rem;" id="ctf-modal-add-title">إضافة Challenge</h3>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">العنوان</label>
+        <input class="form-control" id="ctf-add-title">
+      </div>
+      <div class="form-group">
+        <label class="form-label">المستوى</label>
+        <select class="form-control" id="ctf-add-level">
+          <option value="easy">Easy</option>
+          <option value="medium">Medium</option>
+          <option value="hard">Hard</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">الوصف</label>
+      <textarea class="form-control" id="ctf-add-desc"></textarea>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">الـ Flag الصحيح</label>
+        <input class="form-control" id="ctf-add-flag" placeholder="FLAG{...}">
+      </div>
+      <div class="form-group">
+        <label class="form-label">النقاط</label>
+        <input class="form-control" id="ctf-add-pts" type="number" placeholder="100">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">التلميحات (كل تلميح في سطر)</label>
+      <textarea class="form-control" id="ctf-add-hints" placeholder="تلميح 1&#10;تلميح 2"></textarea>
+    </div>
+    <div class="mini-actions">
+      <button class="btn btn-sm btn-danger" onclick="closeCTFAddModal()">إلغاء</button>
+      <button class="btn btn-sm btn-success" onclick="saveCTFChallenge()">حفظ</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN MODAL -->
+<div id="admin-modal">
+  <div class="admin-box">
+    <div class="admin-header">
+      <h2>⚙ لوحة التحكم — السايبر تيم</h2>
+      <button class="admin-close-btn" onclick="closeAdmin()">✕</button>
+    </div>
+
+    <!-- Login -->
+    <div id="admin-login-pane">
+      <h3>أدخل كلمة المرور</h3>
+      <div class="pass-wrap">
+        <input class="form-control" type="password" id="pass-input-el" placeholder="كلمة المرور" onkeydown="if(event.key==='Enter')checkPass()">
+        <button class="btn btn-primary" onclick="checkPass()">دخول</button>
+      </div>
+      <div class="pass-err" id="pass-err-el"></div>
+      <p style="font-size:.68rem;color:var(--text3);margin-top:1rem;">الافتراضية: <b style="color:var(--red)">admin123</b></p>
+    </div>
+
+    <!-- Panel -->
+    <div id="admin-panel-el" style="display:none;">
+      <div class="admin-tabs-wrap">
+        <div class="a-tab active" onclick="switchAdminTab('general')">عام</div>
+        <div class="a-tab" onclick="switchAdminTab('images')">الصور</div>
+        <div class="a-tab" onclick="switchAdminTab('social')">التواصل</div>
+        <div class="a-tab" onclick="switchAdminTab('sections')">الأقسام</div>
+        <div class="a-tab" onclick="switchAdminTab('workshops')">الورشات</div>
+        <div class="a-tab" onclick="switchAdminTab('ctf')">CTF</div>
+        <div class="a-tab" onclick="switchAdminTab('3d')">3D</div>
+        <div class="a-tab" onclick="switchAdminTab('security')">الأمان</div>
+      </div>
+
+      <div class="admin-content">
+
+        <!-- GENERAL -->
+        <div class="a-pane active" id="a-pane-general">
+          <div class="a-section-title">// معلومات الموقع</div>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">الاسم (الجزء 1)</label><input class="form-control" id="a-title1"></div>
+            <div class="form-group"><label class="form-label">الاسم (الجزء 2)</label><input class="form-control" id="a-title2"></div>
+          </div>
+          <div class="form-group"><label class="form-label">الوصف</label><input class="form-control" id="a-subtitle"></div>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">الإصدار</label><input class="form-control" id="a-version"></div>
+            <div class="form-group"><label class="form-label">نص الشارة</label><input class="form-control" id="a-badge"></div>
+          </div>
+        </div>
+
+        <!-- IMAGES -->
+        <div class="a-pane" id="a-pane-images">
+          <div class="a-section-title">// اللوغو</div>
+          <div class="img-upload-zone"><input type="file" accept="image/*" onchange="handleImg(this,'logo')"><div class="img-upload-icon">🖼</div><div class="img-upload-text">ارفع اللوغو</div></div>
+          <div id="logo-prev-wrap" style="display:none;margin-top:.6rem;"><img id="logo-prev" class="img-prev"><button class="btn btn-xs btn-danger" onclick="clearImg('logo')">حذف</button></div>
+
+          <div class="a-section-title" style="margin-top:1.2rem;">// صورة الهيرو</div>
+          <div class="img-upload-zone"><input type="file" accept="image/*" onchange="handleImg(this,'hero')"><div class="img-upload-icon">🖼</div><div class="img-upload-text">صورة الصفحة الرئيسية</div></div>
+          <div id="hero-prev-wrap" style="display:none;margin-top:.6rem;"><img id="hero-prev" class="img-prev"><button class="btn btn-xs btn-danger" onclick="clearImg('hero')">حذف</button></div>
+
+          <div class="a-section-title" style="margin-top:1.2rem;">// بانر الورشات</div>
+          <div class="img-upload-zone"><input type="file" accept="image/*" onchange="handleImg(this,'wsBanner')"><div class="img-upload-icon">🖼</div><div class="img-upload-text">بانر قسم الورشات</div></div>
+          <div id="wsBanner-prev-wrap" style="display:none;margin-top:.6rem;"><img id="wsBanner-prev" class="img-prev"><button class="btn btn-xs btn-danger" onclick="clearImg('wsBanner')">حذف</button></div>
+
+          <div id="section-banners-admin" style="margin-top:1.2rem;"></div>
+        </div>
+
+        <!-- SOCIAL -->
+        <div class="a-pane" id="a-pane-social">
+          <div class="a-section-title">// روابط التواصل</div>
+          <div class="form-group"><label class="form-label">تيليغرام</label><input class="form-control" id="a-tg" placeholder="https://t.me/..."></div>
+          <div class="form-group"><label class="form-label">انستغرام</label><input class="form-control" id="a-ig" placeholder="https://instagram.com/..."></div>
+          <div class="form-group"><label class="form-label">يوتيوب</label><input class="form-control" id="a-yt" placeholder="https://youtube.com/..."></div>
+          <div class="form-group"><label class="form-label">تويتر / X</label><input class="form-control" id="a-tw" placeholder="https://twitter.com/..."></div>
+        </div>
+
+        <!-- SECTIONS -->
+        <div class="a-pane" id="a-pane-sections">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.85rem;">
+            <div class="a-section-title" style="margin-bottom:0;">// إدارة الأقسام</div>
+            <button class="btn btn-sm btn-primary" onclick="openSectionModal()">+ قسم جديد</button>
+          </div>
+          <div id="sections-manager-el"></div>
+          <div style="margin-top:1.2rem;" id="phase-editors-admin"></div>
+        </div>
+
+        <!-- WORKSHOPS ADMIN -->
+        <div class="a-pane" id="a-pane-workshops">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.85rem;">
+            <div class="a-section-title" style="margin-bottom:0;">// إدارة الورشات</div>
+            <button class="btn btn-sm btn-maroon" onclick="openWSModal(null)">+ ورشة جديدة</button>
+          </div>
+          <div id="ws-editor-el"></div>
+        </div>
+
+        <!-- CTF ADMIN -->
+        <div class="a-pane" id="a-pane-ctf">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.85rem;">
+            <div class="a-section-title" style="margin-bottom:0;">// إدارة CTF Challenges</div>
+            <button class="btn btn-sm btn-cyan" onclick="openCTFAddModal(null)">+ Challenge جديد</button>
+          </div>
+          <div id="ctf-editor-el"></div>
+        </div>
+
+        <!-- 3D -->
+        <div class="a-pane" id="a-pane-3d">
+          <div class="a-section-title">// نظام 3D Models</div>
+          <div class="model-viewer-wrap">
+            <canvas id="three-canvas"></canvas>
+          </div>
+          <div class="model-controls">
+            <button class="btn btn-sm btn-primary" onclick="add3DShape('cube')">+ مكعب</button>
+            <button class="btn btn-sm btn-primary" onclick="add3DShape('sphere')">+ كرة</button>
+            <button class="btn btn-sm btn-primary" onclick="add3DShape('torus')">+ Torus</button>
+            <button class="btn btn-sm btn-cyan" onclick="toggle3DRotation()">⟳ دوران</button>
+            <button class="btn btn-sm btn-warn" onclick="clear3DScene()">🗑 مسح</button>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">اللون</label><input type="color" id="model-color" value="#8b0020" class="form-control" style="height:36px;padding:.2rem;"></div>
+            <div class="form-group"><label class="form-label">الحجم</label><input type="range" id="model-size" min="0.5" max="3" step="0.1" value="1" class="form-control" style="padding:.5rem 0;"></div>
+          </div>
+          <p style="font-size:.72rem;color:var(--text3);margin-top:.5rem;">يمكنك رفع GLB/GLTF model:</p>
+          <div class="img-upload-zone" style="margin-top:.5rem;"><input type="file" accept=".glb,.gltf" onchange="load3DModel(this)"><div class="img-upload-icon">📦</div><div class="img-upload-text">ارفع GLB/GLTF Model</div></div>
+          <div class="form-group" style="margin-top:1rem;">
+            <label class="form-label">عرض الـ 3D على الموقع في قسم</label>
+            <select class="form-control" id="model-section-target">
+              <option value="landing">الصفحة الرئيسية (Hero)</option>
+              <option value="none">مخفي</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- SECURITY -->
+        <div class="a-pane" id="a-pane-security">
+          <div class="a-section-title">// تغيير كلمة المرور</div>
+          <div style="max-width:320px;">
+            <div class="form-group"><label class="form-label">الحالية</label><input class="form-control" type="password" id="cur-pass-el"></div>
+            <div class="form-group"><label class="form-label">الجديدة</label><input class="form-control" type="password" id="new-pass-el"></div>
+            <div class="form-group"><label class="form-label">تأكيد الجديدة</label><input class="form-control" type="password" id="conf-pass-el"></div>
+            <button class="btn btn-warn" onclick="changePassword()">تغيير كلمة المرور</button>
+          </div>
+          <div class="a-section-title" style="margin-top:1.5rem;">// إعادة تعيين</div>
+          <p style="font-size:.76rem;color:var(--text3);margin-bottom:.6rem;">حذف كل البيانات والعودة للافتراضي</p>
+          <button class="btn btn-danger" onclick="resetAll()">🗑 حذف كل البيانات</button>
+        </div>
+
+      </div>
+      <div class="admin-save-bar">
+        <span class="save-ok" id="save-ok-el">✓ تم الحفظ</span>
+        <button class="btn btn-success" onclick="saveAll()">💾 حفظ التغييرات</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo-ph" id="footer-logo-ph-el">🛡</div>
+  <img id="footer-logo-img-el" class="footer-logo-el" src="" alt="" style="display:none;">
+  <div class="footer-brand" id="footer-brand-el">السايبر<span>تيم</span></div>
+  <div class="footer-sub" id="footer-sub-el">CYBER TEAM · أبريل 2026</div>
+  <div class="footer-soc" id="footer-soc-el"></div>
+</footer>
+
+<!-- ============================================================ SCRIPTS ============================================================ -->
+<script>
+/* ============================================================
+   DATA STORE
+   ============================================================ */
+const DEFAULT = {
+  title1:'السايبر', title2:'تيم',
+  subtitle:'خارطة طريق الأمن السيبراني — Red Team & Blue Team & Workshops',
+  version:'إصدار أبريل 2026',
+  badge:'CYBER TEAM — خارطة الأمن السيبراني',
+  tg:'', ig:'', yt:'', tw:'',
+  password: btoa('admin123'),
+  images:{ logo:'', hero:'', wsBanner:'' },
+  sectionBanners:{},
+  sections:[
+    { id:'red', name:'Red Team', icon:'⚔️', type:'red', desc:'اختراق · Malware · Exploit Dev',
+      phases:[
+        { num:'01', title:'الأساسيات', duration:'2–4 أشهر', tag:'ابدأ هنا', icon:'💻', image:'',
+          desc:'شبكات · Linux · Python · مفاهيم الأمن. القاعدة التي كل شيء يبنى عليها.',
+          courses:[
+            {name:'Cybersecurity Fundamentals and Insights',type:'free',link:''},
+            {name:'Introduction to Red Team Operation Management',type:'free',link:''},
+            {name:'Introduction to Python for Offensive Security',type:'paid',link:''},
+            {name:'Foundations of Log Analysis for Cyber Defense',type:'free',link:''},
+            {name:'Cyber Security Architecture v1',type:'free',link:''}
+          ],
+          labs:['DVWA Lab','Juiceshop Lab'],
+          certs:[{name:'CRTOM',link:'',passed:true},{name:'CSLA — $30',link:'',passed:false}],
+          goal:'الهدف: فهم كيف تعمل الشبكات وتعلّم Python لكتابة أدوات بسيطة.'
+        },
+        { num:'02', title:'اختراق الويب والـ Bug Bounty', duration:'3–5 أشهر', tag:'', icon:'🕸', image:'',
+          desc:'أسرع طريق لاكتساب خبرة عملية وبدء الكسب.',
+          courses:[
+            {name:'Introduction to Bug Bounty',type:'paid',link:''},
+            {name:'Complete Web Penetration Testing',type:'paid',link:''},
+            {name:'SQL Injection — Challenge 1',type:'paid',link:''},
+            {name:'Security Code Review and White Box Testing',type:'paid',link:''},
+            {name:'Mastering Pentest & Red Team Report Writing',type:'free',link:''}
+          ],
+          labs:['DVWA Lab','Juiceshop Lab','XSS Labs v1'],
+          certs:[{name:'CWAPJ — $29.99',link:'',passed:false},{name:'CASP — $14',link:'',passed:false}],
+          goal:'الهدف: اعمل على Bug Bounty بجانب الكورسات.'
+        },
+        { num:'03', title:'Active Directory والبنية المؤسسية', duration:'3–5 أشهر', tag:'', icon:'🏢', image:'',
+          desc:'قلب عمليات الريد تيم الحقيقية.',
+          courses:[
+            {name:'Purple Team — Active Directory & AzureAD v1',type:'free',link:''},
+            {name:'Initial Access & Adversary Simulation',type:'paid',link:''},
+            {name:'OpSec & Anonymity for Red Teams',type:'free',link:''},
+            {name:'Spear-Phishing and OpSec Techniques',type:'paid',link:''},
+            {name:'Data Exfiltration — Red Team Operations',type:'free',link:''}
+          ],
+          labs:['Active Directory Compromise Lab','Purple Team Labs v1'],
+          certs:[{name:'CADP — $69.99',link:'',passed:false},{name:'CRTED — $15',link:'',passed:false}],
+          goal:'الهدف: اقدر تأخذ Domain Admin من شبكة مؤسسية.'
+        },
+        { num:'04', title:'التطوير الهجومي وبناء الأدوات', duration:'4–6 أشهر', tag:'', icon:'🔧', image:'',
+          desc:'من مستخدم أدوات إلى صانع أدوات.',
+          courses:[
+            {name:'Assembly Language x86/x64',type:'paid',link:''},
+            {name:'Windows API for Red Team Introduction',type:'free',link:''},
+            {name:'Beacon Object File (BoF) Development',type:'paid',link:''},
+            {name:'Living Off The Land Mastery',type:'pwyw',link:''},
+            {name:'Advanced C2 Development',type:'paid',link:''}
+          ],
+          labs:['Red Team Development Lab','Windows Persistence Lab'],
+          certs:[{name:'COWA — $6.99',link:'',passed:false},{name:'CREB — $8',link:'',passed:false}],
+          goal:'الهدف: اكتب shellcode loader خاص بك وابنِ C2 بسيط.'
+        },
+        { num:'05', title:'التهرب من AV/EDR والـ Kernel', duration:'4–8 أشهر', tag:'أصعب مرحلة', icon:'🔬', image:'',
+          desc:'الفارق الحقيقي بينك وبين 95% من الناس.',
+          courses:[
+            {name:'Malware Analysis Introduction v1',type:'free',link:''},
+            {name:'AV/EDR Evasion Practical Techniques',type:'free',link:''},
+            {name:'EDR Internals for Evasion',type:'pwyw',link:''},
+            {name:'Linux Kernel Programming and Rootkits',type:'paid',link:''},
+            {name:'Windows Kernel Exploitation Introduction v1',type:'paid',link:''}
+          ],
+          labs:[],
+          certs:[{name:'CEDS — $30',link:'',passed:false},{name:'CMAB — $8',link:'',passed:false}],
+          goal:'الهدف: اكتب implant يتجاوز Windows Defender وCrowdStrike.'
+        },
+        { num:'06', title:'التخصص والاحتراف', duration:'مستمر', tag:'اختر نيشك', icon:'🎯', image:'',
+          desc:'تفوّق في مجال واحد يميّزك عن الجميع.',
+          courses:[
+            {name:'Intelligence & Counterintelligence Introduction',type:'paid',link:''},
+            {name:'Advanced OSINT Mastery',type:'paid',link:''},
+            {name:'Dark & Deep Web Investigation',type:'pwyw',link:''},
+            {name:'ICS/SCADA Cybersecurity',type:'free',link:''},
+            {name:'Introduction to Offensive Security with AI',type:'free',link:''}
+          ],
+          labs:[],
+          certs:[{name:'CORA — $7.99',link:'',passed:false}],
+          goal:'الهدف: صِر مرجعاً في تخصصك. اكتب مقالات وشارك في CTF.'
+        }
+      ]
+    },
+    { id:'blue', name:'Blue Team', icon:'🛡️', type:'blue', desc:'DFIR · Threat Hunting · SOC',
+      phases:[
+        { num:'01', title:'الأساسيات والمفاهيم', duration:'2–3 أشهر', tag:'ابدأ هنا', icon:'🛡', image:'',
+          desc:'شبكات · Linux · Python · مبادئ الأمن الدفاعي.',
+          courses:[
+            {name:'Cybersecurity Fundamentals and Insights',type:'free',link:''},
+            {name:'Cyber Security Architecture v1',type:'free',link:''},
+            {name:'Introduction to Python for Defensive Security',type:'free',link:''},
+            {name:'Foundations of Log Analysis for Cyber Defense',type:'free',link:''}
+          ],
+          labs:[],
+          certs:[{name:'CECB',link:'',passed:true},{name:'CSLA — $30',link:'',passed:false}],
+          goal:'الهدف: افهم كيف تعمل الهجمات لتقدر تدافع عنها.'
+        },
+        { num:'02', title:'تحليل اللوغات والـ SIEM', duration:'2–3 أشهر', tag:'', icon:'📊', image:'',
+          desc:'المهارة الأولى لأي محلل أمني.',
+          courses:[
+            {name:'Foundations of Log Analysis for Cyber Defense',type:'free',link:''},
+            {name:'Malware Analysis Introduction v1',type:'free',link:''},
+            {name:'Data Science for Cybersecurity',type:'paid',link:''}
+          ],
+          labs:[],
+          certs:[{name:'CSLA — $30',link:'',passed:false},{name:'CTHIRI — $7.99',link:'',passed:false}],
+          goal:'الهدف: اقرأ Windows Event Logs وSysmon وFirewall logs.'
+        },
+        { num:'03', title:'تحليل الـ Malware والـ Forensics', duration:'3–4 أشهر', tag:'', icon:'🔍', image:'',
+          desc:'افهم الأدوات التي يستخدمها المهاجمون.',
+          courses:[
+            {name:'Malware Analysis Introduction v1',type:'free',link:''},
+            {name:'Intermediate Malware Analysis Course',type:'free',link:''},
+            {name:'Digital Forensics & Incident Investigation',type:'free',link:''}
+          ],
+          labs:[],
+          certs:[{name:'CMAB — $8',link:'',passed:false},{name:'CRDFA — $8',link:'',passed:false}],
+          goal:'الهدف: حلّل malware sample من الصفر وافهم ماذا يفعل.'
+        },
+        { num:'04', title:'Threat Hunting والـ Detection', duration:'3–5 أشهر', tag:'', icon:'🎯', image:'',
+          desc:'من reactive إلى proactive.',
+          courses:[
+            {name:'Purple Team — Active Directory & AzureAD v1',type:'free',link:''},
+            {name:'Data Science for Cybersecurity',type:'paid',link:''},
+            {name:'ICS/SCADA Cybersecurity',type:'free',link:''}
+          ],
+          labs:['Purple Team Labs v1','Active Directory Compromise Lab'],
+          certs:[{name:'CTHIRI — $7.99',link:'',passed:false}],
+          goal:'الهدف: اكتب SIGMA rules وYARA signatures خاصة بك.'
+        },
+        { num:'05', title:'التخصص والـ Purple Team', duration:'مستمر', tag:'اختر نيشك', icon:'⚡', image:'',
+          desc:'جسّر الهوة بين الهجوم والدفاع.',
+          courses:[
+            {name:'Intelligence & Counterintelligence Introduction',type:'paid',link:''},
+            {name:'Advanced OSINT Mastery',type:'paid',link:''},
+            {name:'Healthcare Hacking Introduction',type:'free',link:''}
+          ],
+          labs:[],
+          certs:[{name:'CORA — $7.99',link:'',passed:false}],
+          goal:'الهدف: Purple Team تجمع المعرفتين — اعمل مع الريد تيم لتحسين الدفاعات.'
+        }
+      ]
+    }
+  ],
+  workshops:[
+    { id:'ws-0', title:'ورشة Web App Pentesting', icon:'🕸', desc:'ورشة عملية متكاملة في اختبار اختراق تطبيقات الويب', level:'beginner', duration:'6 ساعات', instructor:'السايبر تيم', image:'',
+      overview:'تغطي هذه الورشة أساسيات اختبار اختراق تطبيقات الويب من SQL Injection وXSS وCSRF وSSRF. مبنية على منهجية OWASP Top 10.',
+      resources:['https://owasp.org/Top10','https://portswigger.net/web-security'],
+      labs:[
+        {title:'SQL Injection Lab', desc:'اختبر ثغرات SQL Injection على بيئة آمنة', type:'code', instructions:'استخدم payload مثل: \' OR 1=1-- \nادخل في input:', answer:'admin', validationType:'exact'},
+        {title:'XSS Detection Lab', desc:'اكتشف ثغرات XSS', type:'code', instructions:'اكتب XSS payload بسيط:', answer:'<script>alert(1)</script>', validationType:'contains'}
+      ]
+    }
+  ],
+  ctfChallenges:[
+    { id:'ctf-0', title:'Welcome to CTF', level:'easy', desc:'ابحث عن الـ Flag المخفي في هذه الصفحة. تلميح: انظر في الكود المصدر!', flag:'FLAG{W3lc0me_T0_CyberT3am_CTF}', points:50, hints:['انظر في source code الصفحة','استخدم Ctrl+U'], solved:false },
+    { id:'ctf-1', title:'Base64 Secret', level:'easy', desc:'فك تشفير هذا النص: Q3liZXJUZWFtX1NFQ1JFVA==', flag:'FLAG{CyberTeam_SECRET}', points:100, hints:['هذا Base64','استخدم atob() في console'], solved:false },
+    { id:'ctf-2', title:'SQL Injection Master', level:'medium', desc:'اخترق نموذج تسجيل الدخول التالي باستخدام SQL Injection. الـ payload الصحيح سيعطيك الـ Flag.', flag:"FLAG{SQl_1nj3ct10n_M4st3r}", points:200, hints:["جرب ' OR '1'='1",'الـ payload يحتوي على -- للتعليق'], solved:false },
+    { id:'ctf-3', title:'Kernel Exploit Challenge', level:'hard', desc:'استغل ثغرة في هذا الكود الوهمي وجد الـ Flag المخفي في ذاكرة النظام', flag:'FLAG{K3rn3l_3xpl01t_G0d}', points:500, hints:['فكر في buffer overflow','الـ flag في العنوان 0xDEADBEEF'], solved:false }
+  ],
+  leaderboard:[],
+  userPoints:0,
+  threeDObjects:[],
+  show3DOnLanding: false
+};
+
+let CFG = {};
+let adminUnlocked = false;
+let currentSection = null;
+let currentWorkshop = null;
+let activeCTF = null;
+let ctfTimerInterval = null;
+let ctfSeconds = 0;
+let threeScene = null, threeCamera = null, threeRenderer = null, threeAnimId = null;
+let threeRotate = true;
+let certCourse = '';
+let certSigData = '';
+let courseModalCtx = null;
+let wsModalIdx = null;
+let ctfModalIdx = null;
+
+/* ============================================================ STORAGE */
+function loadData(){
+  try{const s=localStorage.getItem('ct_v2');if(s)CFG=JSON.parse(s);else CFG=JSON.parse(JSON.stringify(DEFAULT));}
+  catch(e){CFG=JSON.parse(JSON.stringify(DEFAULT));}
+}
+function saveData(){ localStorage.setItem('ct_v2',JSON.stringify(CFG)); }
+function showNotif(msg,type='success'){
+  const el=document.getElementById('notif');
+  el.textContent=msg; el.className='notif '+type; el.style.display='block';
+  clearTimeout(el._t); el._t=setTimeout(()=>el.style.display='none',3000);
+}
+
+/* ============================================================ RENDER SITE */
+function renderSite(){
+  // Basics
+  document.getElementById('title-c1-el').textContent=CFG.title1;
+  document.getElementById('title-c2-el').textContent=CFG.title2;
+  document.getElementById('landing-sub-el').textContent=CFG.subtitle;
+  document.getElementById('landing-version-el').textContent=CFG.version;
+  document.getElementById('badge-el').textContent=CFG.badge;
+  document.getElementById('site-title-tag').textContent=CFG.title1+CFG.title2;
+  document.getElementById('footer-brand-el').innerHTML=CFG.title1+'<span>'+CFG.title2+'</span>';
+  document.getElementById('footer-sub-el').textContent=CFG.badge+' · '+CFG.version;
+  document.getElementById('nav-logo-txt').innerHTML=CFG.title1+'<span class="accent">'+CFG.title2+'</span>';
+
+  // Logo
+  const hasLogo=!!CFG.images.logo;
+  document.getElementById('logo-ph').style.display=hasLogo?'none':'flex';
+  document.getElementById('logo-img').style.display=hasLogo?'block':'none';
+  if(hasLogo){ document.getElementById('logo-img').src=CFG.images.logo; document.getElementById('nav-logo-img').src=CFG.images.logo; document.getElementById('nav-logo-img').style.display='block'; document.getElementById('footer-logo-ph-el').style.display='none'; document.getElementById('footer-logo-img-el').style.display='block'; document.getElementById('footer-logo-img-el').src=CFG.images.logo; }
+  else{ document.getElementById('nav-logo-img').style.display='none'; document.getElementById('footer-logo-ph-el').style.display='flex'; document.getElementById('footer-logo-img-el').style.display='none'; }
+
+  // Hero image
+  if(CFG.images.hero){ document.getElementById('landing-hero-img').src=CFG.images.hero; document.getElementById('landing-hero-img').style.display='block'; document.getElementById('landing-hero-ph').style.background='none'; }
+  else{ document.getElementById('landing-hero-img').style.display='none'; }
+
+  // Workshops banner
+  if(CFG.images.wsBanner){ document.getElementById('ws-banner-ph').style.display='none'; document.getElementById('ws-banner-img').src=CFG.images.wsBanner; document.getElementById('ws-banner-img').style.display='block'; }
+  else{ document.getElementById('ws-banner-ph').style.display='flex'; document.getElementById('ws-banner-img').style.display='none'; }
+
+  // Social
+  renderSocials('social-bar-el'); renderSocials('footer-soc-el');
+
+  // Nav dynamic links
+  renderNavLinks();
+
+  // Landing grid
+  renderLandingGrid();
+
+  // Dynamic roadmap sections
+  renderDynamicSections();
+
+  // Workshops
+  renderWorkshops();
+
+  // CTF
+  renderCTF();
+}
+
+function renderSocials(elId){
+  const d=document.getElementById(elId); if(!d) return;
+  let h='';
+  if(CFG.tg) h+=`<a class="soc-btn soc-tg" href="${CFG.tg}" target="_blank">✈ تيليغرام</a>`;
+  if(CFG.ig) h+=`<a class="soc-btn soc-ig" href="${CFG.ig}" target="_blank">📸 انستغرام</a>`;
+  if(CFG.yt) h+=`<a class="soc-btn soc-yt" href="${CFG.yt}" target="_blank">▶ يوتيوب</a>`;
+  if(CFG.tw) h+=`<a class="soc-btn soc-tw" href="${CFG.tw}" target="_blank">𝕏 تويتر</a>`;
+  d.innerHTML=h;
+}
+
+function renderNavLinks(){
+  const nl=document.getElementById('nav-links-el');
+  let h=`<a class="nav-home-btn" href="#" onclick="goHome();return false;">الرئيسية</a>`;
+  CFG.sections.forEach(s=>{
+    h+=`<a class="nav-btn" id="nav-${s.id}" href="#" onclick="showSection('${s.id}');return false;">${s.icon} ${s.name}</a>`;
+  });
+  h+=`<a class="nav-btn" id="nav-workshops" href="#" onclick="showSection('workshops');return false;">🔬 Workshops</a>`;
+  h+=`<a class="nav-btn" id="nav-ctf" href="#" onclick="showSection('ctf');return false;">💀 CTF</a>`;
+  nl.innerHTML=h;
+}
+
+function renderLandingGrid(){
+  const grid=document.getElementById('sections-grid-el');
+  const all=[...CFG.sections, {id:'workshops',name:'Workshops',icon:'🔬',type:'maroon',desc:'Labs · تدريب · شهادات'}, {id:'ctf',name:'CTF Challenges',icon:'💀',type:'ctf',desc:'Flags · Points · Leaderboard'}];
+  const cols = all.length<=2?'cols-2': all.length<=4?'cols-2':'cols-3';
+  grid.className='sections-grid '+cols;
+  grid.innerHTML=all.map(s=>`
+    <a class="section-card type-${s.type}" href="#" onclick="showSection('${s.id}');return false;">
+      <span class="sc-icon">${s.icon}</span>
+      <div class="sc-label">${(s.type||'').toUpperCase()}</div>
+      <div class="sc-title">${s.name}</div>
+      <div class="sc-desc">${s.desc||''}</div>
+    </a>`).join('');
+}
+
+function renderDynamicSections(){
+  const container=document.getElementById('dynamic-sections');
+  container.innerHTML=CFG.sections.map(s=>renderSectionHTML(s)).join('');
+}
+
+function renderSectionHTML(s){
+  const color=s.type==='blue'?'blue':s.type==='maroon'?'maroon':'red';
+  const hasBanner=CFG.sectionBanners&&CFG.sectionBanners[s.id];
+  const bannerHTML=hasBanner
+    ?`<img class="section-banner-img" src="${CFG.sectionBanners[s.id]}" alt="" style="display:block;width:100%;height:100%;object-fit:cover;">`
+    :`<div class="section-banner-ph"><span>${s.name.toUpperCase()} BANNER</span></div>`;
+  const phasesHTML=(s.phases||[]).map((p,i)=>renderPhaseHTML(p,i,color)).join('');
+  return `<div id="section-${s.id}" class="roadmap-section rs-${color}">
+    <div class="section-hero">
+      <div class="hero-tag">${s.icon} ${s.name.toUpperCase()} · أبريل 2026</div>
+      <div class="section-banner-wrap">${bannerHTML}</div>
+      <h2 class="hero-title">${s.name}</h2>
+      <p class="hero-desc">${s.desc||''}</p>
+      <div class="stats-row">
+        <div class="stat-item"><span class="stat-num">${(s.phases||[]).length}</span><span class="stat-label">مراحل</span></div>
+        <div class="stat-item"><span class="stat-num">${(s.phases||[]).reduce((a,p)=>a+(p.courses||[]).length,0)}</span><span class="stat-label">كورس</span></div>
+      </div>
+    </div>
+    <div class="legend-bar">
+      <div class="legend-item"><span class="leg-dot leg-free"></span>مجاني</div>
+      <div class="legend-item"><span class="leg-dot leg-paid"></span>مشترك</div>
+      <div class="legend-item"><span class="leg-dot leg-pwyw"></span>PWYW</div>
+    </div>
+    <div class="phases-container">${phasesHTML}</div>
+  </div>`;
+}
+
+function renderPhaseHTML(p,i,color){
+  const thumbHTML=p.image?`<img class="phase-thumb" src="${p.image}" alt="">`:
+    `<div class="phase-thumb-ph">${p.icon||'🔒'}</div>`;
+  const fullImgHTML=p.image?`<img class="phase-full-img" src="${p.image}" alt="">`:
+    `<div class="phase-full-ph"><span>PHASE ${p.num} IMAGE</span></div>`;
+  const cHTML=(p.courses||[]).map((c,ci)=>{
+    const tc=c.type==='free'?'tag-free':c.type==='pwyw'?'tag-pwyw':'tag-paid';
+    const tt=c.type==='free'?'مجاني':c.type==='pwyw'?'PWYW':'مشترك';
+    const lnk=c.link?`<a class="course-link-btn" href="${c.link}" target="_blank">↗ رابط</a>`:'';
+    return `<div class="course-item"><div class="course-num">${ci+1}</div><div class="course-name">${c.name}</div>${lnk}<span class="tag ${tc}">${tt}</span></div>`;
+  }).join('');
+  const labsHTML=(p.labs&&p.labs.filter(l=>l).length)?`<ul class="extras-list">${p.labs.filter(l=>l).map(l=>`<li>${l}</li>`).join('')}</ul>`:'';
+  const certsHTML=(p.certs&&p.certs.length)?`<ul class="extras-list">${p.certs.map(c=>c.passed?`<li class="cert-passed-el">${c.name}</li>`:`<li>${c.link?`<a class="cert-link-el" href="${c.link}" target="_blank">${c.name}</a>`:`<span style="color:var(--text2)">${c.name}</span>`}</li>`).join('')}</ul>`:'';
+  const hasExtras=labsHTML||certsHTML;
+  const certBtn=`<div style="margin-top:.6rem;padding:.6rem 1.35rem;border-top:1px solid var(--border);"><button class="btn btn-sm btn-primary" onclick='openCertModal(${JSON.stringify(p.title)})'>🎓 شهادة إتمام المرحلة</button></div>`;
+  return `<div class="phase-block open" onclick="togglePhase(this)">
+    <div class="phase-header">
+      <div class="phase-num-wrap">
+        <div class="phase-num">${p.num||String(i+1).padStart(2,'0')}</div>${thumbHTML}
+        <div class="phase-info">
+          <div class="phase-title-el">${p.title}</div>
+          <div class="phase-meta">${p.tag?`<span class="phase-dur">${p.tag}</span>`:''} ${p.duration||''}</div>
+          <div class="phase-desc-short">${p.desc||''}</div>
+        </div>
+      </div>
+      <div class="phase-toggle">▼</div>
+    </div>
+    <div class="phase-body">
+      ${fullImgHTML}
+      <div class="courses-section">
+        <div class="section-label">// الكورسات — ابدأ بهذا الترتيب</div>
+        <div class="course-list">${cHTML}</div>
+      </div>
+      ${hasExtras?`<div class="extras-row">${labsHTML?`<div class="extras-col"><div class="section-label">// المختبرات</div>${labsHTML}</div>`:''} ${certsHTML?`<div class="extras-col"><div class="section-label">// الشهادات</div>${certsHTML}</div>`:''}</div>`:''}
+      <div class="phase-goal">${p.goal||''}</div>
+      ${certBtn}
+    </div>
+  </div>`;
+}
+
+/* ============================================================ WORKSHOPS */
+function renderWorkshops(){
+  const grid=document.getElementById('workshops-grid-el');
+  document.getElementById('ws-count').textContent=CFG.workshops.length;
+  const totalLabs=CFG.workshops.reduce((a,w)=>a+(w.labs||[]).length,0);
+  document.getElementById('ws-labs-count').textContent=totalLabs;
+  grid.innerHTML=CFG.workshops.map((w,i)=>`
+    <div class="workshop-card" onclick="openWorkshop(${i})">
+      ${w.image?`<img class="wc-img" src="${w.image}" alt="">`:
+        `<div class="wc-img-ph"><span>${w.icon||'🔐'}</span></div>`}
+      <div class="wc-body">
+        <div class="wc-title">${w.title}</div>
+        <div class="wc-desc">${w.desc||''}</div>
+        <div class="wc-meta">
+          <span class="tag tag-${w.level||'beginner'}">${w.level==='advanced'?'Advanced':'Beginner'}</span>
+          <span class="tag tag-paid" style="color:var(--text3);border-color:var(--border2);">⏱ ${w.duration||''}</span>
+          <span class="wc-instructor">👤 ${w.instructor||''}</span>
+        </div>
+      </div>
+    </div>`).join('') || `<div style="color:var(--text3);font-size:.8rem;padding:2rem;text-align:center;grid-column:1/-1;">لا توجد ورشات بعد — أضف من لوحة التحكم</div>`;
+}
+
+function openWorkshop(i){
+  currentWorkshop=i;
+  const w=CFG.workshops[i];
+  document.getElementById('wd-title-el').textContent=w.title;
+  document.getElementById('wd-desc-el').textContent=w.desc;
+  document.getElementById('wd-meta-bar-el').innerHTML=`
+    <div class="wd-meta-item">📊 <span class="tag tag-${w.level}">${w.level==='advanced'?'Advanced':'Beginner'}</span></div>
+    <div class="wd-meta-item">⏱ ${w.duration}</div>
+    <div class="wd-meta-item">👤 ${w.instructor}</div>
+    <div class="wd-meta-item">${(w.labs||[]).length} Lab تفاعلي</div>`;
+
+  // Tabs
+  const tabs=['overview','content','labs','resources','certificates'];
+  const tabLabels=['Overview','المحتوى','Labs','الموارد','الشهادات'];
+  document.getElementById('wd-tabs-el').innerHTML=tabs.map((t,i)=>`<div class="wd-tab ${i===0?'active':''}" onclick="switchWDTab('${t}',this)">${tabLabels[i]}</div>`).join('');
+  document.getElementById('wd-content-el').innerHTML=tabs.map((t,i)=>`<div class="wd-pane ${i===0?'active':''}" id="wdp-${t}">${renderWDPane(t,w)}</div>`).join('');
+
+  hideAll();
+  document.getElementById('workshop-detail').classList.add('active');
+  document.getElementById('main-nav').classList.add('visible');
+  markNavActive('workshops');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function renderWDPane(t,w){
+  if(t==='overview') return `<div style="font-size:.85rem;color:var(--text2);line-height:1.9;">${w.overview||'لا يوجد وصف تفصيلي بعد'}</div>`;
+  if(t==='content') return `<div style="color:var(--text2);font-size:.82rem;">المحتوى يُضاف من لوحة التحكم</div>`;
+  if(t==='labs') return renderWSLabs(w);
+  if(t==='resources') return `<ul class="extras-list">${(w.resources||[]).map(r=>`<li><a href="${r}" target="_blank" style="color:var(--cyan);font-size:.8rem;">${r}</a></li>`).join('')||'<li style="color:var(--text3)">لا توجد موارد</li>'}</ul>`;
+  if(t==='certificates') return `<div style="text-align:center;padding:2rem;"><p style="color:var(--text2);margin-bottom:1rem;font-size:.85rem;">أكمل الورشة للحصول على شهادة</p><button class="btn btn-primary btn-lg" onclick="openCertModal('${w.title}')">🎓 توليد شهادة</button></div>`;
+  return '';
+}
+
+function renderWSLabs(w){
+  if(!w.labs||!w.labs.length) return `<div style="color:var(--text3);font-size:.8rem;">لا توجد labs بعد</div>`;
+  return w.labs.map((lab,i)=>`
+    <div class="lab-block open" style="margin-bottom:1rem;">
+      <div class="lab-header" onclick="this.parentElement.classList.toggle('open')">
+        <span class="lab-icon">${lab.type==='code'?'💻':'❓'}</span>
+        <div class="lab-info">
+          <div class="lab-title">${lab.title}</div>
+          <div class="lab-desc-short">${lab.desc}</div>
+        </div>
+        <span class="tag tag-${lab.type==='code'?'paid':'easy'}">${lab.type==='code'?'CODE':'Q&A'}</span>
+        <span style="color:var(--text3);transition:transform .3s;">▼</span>
+      </div>
+      <div class="lab-body">
+        <div class="lab-content">
+          <div class="lab-instructions">${lab.instructions}</div>
+          <textarea class="lab-editor" id="lab-ed-${i}" placeholder="اكتب هنا..."></textarea>
+          <div class="lab-actions">
+            <button class="btn btn-sm btn-primary" onclick="runLab(${i},'${lab.answer}','${lab.validationType}')">▶ تشغيل / تحقق</button>
+            <button class="btn btn-sm btn-warn" onclick="getAILabHint(${JSON.stringify(lab).replace(/"/g,'&quot;')})">🤖 تلميح AI</button>
+          </div>
+          <div class="lab-output" id="lab-out-${i}"></div>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function runLab(idx, answer, validationType){
+  const ed=document.getElementById(`lab-ed-${idx}`);
+  const out=document.getElementById(`lab-out-${idx}`);
+  const val=(ed?.value||'').trim();
+  if(!val){out.textContent='❌ لم تكتب شيئاً';out.className='lab-output visible error';return;}
+  let correct=false;
+  if(validationType==='exact') correct=val===answer;
+  else if(validationType==='contains') correct=val.toLowerCase().includes(answer.toLowerCase());
+  else correct=val.length>3;
+  out.className='lab-output visible '+(correct?'':'error');
+  out.textContent=correct?'✅ صحيح! أحسنت — الإجابة صحيحة.':'❌ ليس صحيحاً — حاول مرة أخرى أو استخدم تلميح AI.';
+}
+
+function switchWDTab(t, el){
+  document.querySelectorAll('.wd-tab').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.wd-pane').forEach(x=>x.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('wdp-'+t).classList.add('active');
+}
+
+function closeWorkshop(){
+  document.getElementById('workshop-detail').classList.remove('active');
+  showSection('workshops');
+}
+
+/* ============================================================ CTF */
+function renderCTF(){
+  document.getElementById('ctf-total').textContent=CFG.ctfChallenges.length;
+  const solved=CFG.ctfChallenges.filter(c=>c.solved).length;
+  document.getElementById('ctf-solved-count').textContent=solved;
+  const pts=CFG.ctfChallenges.filter(c=>c.solved).reduce((a,c)=>a+Number(c.points||0),0);
+  document.getElementById('ctf-total-pts').textContent=pts;
+
+  const container=document.getElementById('ctf-challenges-el');
+  container.innerHTML=CFG.ctfChallenges.map((c,i)=>`
+    <div class="ctf-card ${c.solved?'solved':''}" onclick="openCTFChallenge(${i})">
+      <div class="ctf-card-header">
+        <div class="ctf-card-title">${c.title}</div>
+        <div class="ctf-points">${c.points}</div>
+      </div>
+      <div style="margin-bottom:.5rem;"><span class="tag tag-${c.level}">${c.level}</span></div>
+      <div class="ctf-card-desc">${c.desc}</div>
+      ${c.solved?`<div class="ctf-solved-badge">✓ SOLVED</div>`:`<div style="font-size:.68rem;color:var(--text3);font-family:'Share Tech Mono',monospace;">${(c.hints||[]).length} HINTS</div>`}
+    </div>`).join('')||`<div style="color:var(--text3);font-size:.8rem;padding:2rem;text-align:center;grid-column:1/-1;">لا توجد تحديات بعد</div>`;
+}
+
+function openCTFChallenge(i){
+  activeCTF=CFG.ctfChallenges[i].title;
+  const c=CFG.ctfChallenges[i];
+  document.getElementById('ctf-m-title').textContent=c.title+' — '+c.points+' pts';
+  document.getElementById('ctf-m-desc').textContent=c.desc;
+  document.getElementById('ctf-flag-input').value='';
+  const fb=document.getElementById('ctf-feedback'); fb.style.display='none';
+  document.getElementById('gen-cert-ctf-btn').style.display=c.solved?'inline-flex':'none';
+
+  // Hints
+  const hintsEl=document.getElementById('ctf-m-hints');
+  hintsEl.innerHTML=(c.hints||[]).map((h,hi)=>`<div class="hint-item" style="display:none;" id="hint-${hi}">💡 ${h}</div>`).join('');
+  if((c.hints||[]).length) hintsEl.innerHTML+=`<button class="btn btn-xs btn-warn" style="margin-bottom:.75rem;" onclick="revealNextHint()">عرض تلميح</button>`;
+
+  // Timer
+  clearInterval(ctfTimerInterval); ctfSeconds=0;
+  ctfTimerInterval=setInterval(()=>{ ctfSeconds++; const m=Math.floor(ctfSeconds/60).toString().padStart(2,'0'); const s=(ctfSeconds%60).toString().padStart(2,'0'); document.getElementById('ctf-timer').textContent=m+':'+s; },1000);
+
+  document.getElementById('ctf-modal').classList.add('open');
+  // Store index for flag check
+  document.getElementById('ctf-modal').dataset.idx=i;
+}
+
+let hintRevealIdx=0;
+function revealNextHint(){
+  const el=document.getElementById('hint-'+hintRevealIdx);
+  if(el){ el.style.display='block'; hintRevealIdx++; }
+  else showNotif('لا مزيد من التلميحات','info');
+}
+
+function submitFlag(){
+  const i=parseInt(document.getElementById('ctf-modal').dataset.idx);
+  const c=CFG.ctfChallenges[i];
+  const val=document.getElementById('ctf-flag-input').value.trim();
+  const fb=document.getElementById('ctf-feedback');
+  if(val===c.flag||val.toLowerCase()===c.flag.toLowerCase()){
+    c.solved=true;
+    fb.textContent='🎉 صحيح! حصلت على '+c.points+' نقطة!';
+    fb.className='ctf-feedback ok'; fb.style.display='block';
+    clearInterval(ctfTimerInterval);
+    document.getElementById('gen-cert-ctf-btn').style.display='inline-flex';
+    // Add to leaderboard
+    const name=document.getElementById('ctf-player-name').value||'Anonymous';
+    const existing=CFG.leaderboard.find(e=>e.name===name);
+    if(existing) existing.score=(existing.score||0)+Number(c.points);
+    else CFG.leaderboard.push({name,score:Number(c.points)});
+    CFG.leaderboard.sort((a,b)=>b.score-a.score);
+    saveData(); renderCTF();
+    showNotif('🎉 حللت التحدي! +'+c.points+' نقطة','success');
+  } else {
+    fb.textContent='❌ الـ Flag غلط. حاول مرة أخرى!';
+    fb.className='ctf-feedback fail'; fb.style.display='block';
+  }
+}
+
+function closeCTF(){
+  document.getElementById('ctf-modal').classList.remove('open');
+  clearInterval(ctfTimerInterval);
+  hintRevealIdx=0;
+}
+
+function openLeaderboard(){
+  const rows=document.getElementById('leaderboard-rows');
+  rows.innerHTML=CFG.leaderboard.length
+    ? CFG.leaderboard.slice(0,20).map((e,i)=>`
+        <div class="lb-row">
+          <div class="lb-rank ${i===0?'gold':i===1?'silver':i===2?'bronze':''}">${i+1}</div>
+          <div class="lb-name">${e.name}</div>
+          <div class="lb-score">${e.score}</div>
+        </div>`).join('')
+    : `<div style="padding:1.5rem;text-align:center;color:var(--text3);font-size:.8rem;">لا يوجد لاعبون بعد</div>`;
+  document.getElementById('leaderboard-modal').classList.add('open');
+}
+
+/* ============================================================ CERT */
+function openCertModal(courseName){
+  certCourse=courseName;
+  document.getElementById('cp-name').textContent='اسم الطالب';
+  document.getElementById('cp-course').textContent=courseName;
+  document.getElementById('cp-date').textContent=new Date().toLocaleDateString('ar-EG',{year:'numeric',month:'long',day:'numeric'});
+  document.getElementById('cp-site-name').textContent=CFG.title1+CFG.title2;
+  document.getElementById('cert-student-name').value='';
+  // QR
+  document.getElementById('cert-qr').innerHTML='';
+  try{ new QRCode(document.getElementById('cert-qr'),{text:'https://cyberteam.io/verify/'+Date.now(),width:64,height:64,colorDark:'#ff003c',colorLight:'#000'}); }catch(e){}
+  document.getElementById('cert-modal').classList.add('open');
+}
+
+function closeCertModal(){ document.getElementById('cert-modal').classList.remove('open'); }
+
+function handleSigUpload(input){
+  const file=input.files[0]; if(!file) return;
+  const reader=new FileReader();
+  reader.onload=e=>{ certSigData=e.target.result; document.getElementById('cp-sig').innerHTML=`<img src="${certSigData}" style="height:24px;">`; };
+  reader.readAsDataURL(file);
+}
+
+async function downloadCert(){
+  const name=document.getElementById('cert-student-name').value||'الطالب';
+  document.getElementById('cp-name').textContent=name;
+
+  const {jsPDF}=window.jspdf;
+  const doc=new jsPDF({orientation:'landscape',unit:'mm',format:'a4'});
+  const W=297,H=210;
+
+  // Background
+  doc.setFillColor(2,2,2); doc.rect(0,0,W,H,'F');
+  doc.setFillColor(20,0,5); doc.rect(10,10,W-20,H-20,'F');
+
+  // Border
+  doc.setDrawColor(139,0,32); doc.setLineWidth(0.5); doc.rect(10,10,W-20,H-20,'S');
+  doc.setDrawColor(80,0,15); doc.setLineWidth(0.2); doc.rect(13,13,W-26,H-26,'S');
+
+  // Header
+  doc.setFont('helvetica','bold');
+  doc.setFontSize(28); doc.setTextColor(255,0,60);
+  doc.text(CFG.title1+' '+CFG.title2, W/2, 45, {align:'center'});
+  doc.setFontSize(10); doc.setTextColor(136,136,136);
+  doc.setFont('helvetica','normal');
+  doc.text('CYBER SECURITY TRAINING PLATFORM', W/2, 53, {align:'center'});
+
+  // Certificate title
+  doc.setFontSize(14); doc.setTextColor(170,170,170);
+  doc.text('شهادة إتمام', W/2, 70, {align:'center'});
+
+  // Student name
+  doc.setFont('helvetica','bold');
+  doc.setFontSize(32); doc.setTextColor(255,0,60);
+  doc.text(name, W/2, 95, {align:'center'});
+
+  // Line
+  doc.setDrawColor(139,0,32); doc.setLineWidth(0.3);
+  doc.line(60,100,W-60,100);
+
+  // Course
+  doc.setFont('helvetica','normal');
+  doc.setFontSize(14); doc.setTextColor(200,200,200);
+  doc.text('أتم بنجاح:', W/2, 113, {align:'center'});
+  doc.setFont('helvetica','bold');
+  doc.setFontSize(16); doc.setTextColor(255,180,180);
+  doc.text(certCourse, W/2, 123, {align:'center'});
+
+  // Date
+  doc.setFont('helvetica','normal');
+  doc.setFontSize(10); doc.setTextColor(100,100,100);
+  doc.text(new Date().toLocaleDateString('en-GB'), W/2, 140, {align:'center'});
+
+  // Verify ID
+  const vid='CT-'+Date.now().toString(36).toUpperCase();
+  doc.setFontSize(8); doc.setTextColor(70,70,70);
+  doc.text('Verification ID: '+vid, W/2, 152, {align:'center'});
+
+  // Footer
+  doc.setFontSize(8); doc.setTextColor(60,60,60);
+  doc.text('verify.cyberteam.io', 25, H-18);
+  doc.text('© '+CFG.title1+CFG.title2+' '+new Date().getFullYear(), W-25, H-18, {align:'right'});
+
+  // Signature
+  if(certSigData){
+    try{ doc.addImage(certSigData,'PNG',W/2-20,155,40,15); }catch(e){}
+    doc.setLineWidth(0.2); doc.setDrawColor(100,100,100); doc.line(W/2-25,170,W/2+25,170);
+    doc.setFontSize(8); doc.setTextColor(80,80,80); doc.text('التوقيع',W/2,175,{align:'center'});
+  }
+
+  doc.save('شهادة-'+name+'-'+certCourse+'.pdf');
+  showNotif('✓ تم تحميل الشهادة PDF','success');
+}
+
+/* ============================================================ AI */
+function toggleAI(){
+  const p=document.getElementById('ai-panel');
+  p.classList.toggle('open');
+}
+
+function aiQuick(q){ document.getElementById('ai-input').value=q; sendAI(); }
+
+async function sendAI(){
+  const input=document.getElementById('ai-input');
+  const msgs=document.getElementById('ai-messages');
+  const q=input.value.trim(); if(!q) return;
+  input.value='';
+
+  // User msg
+  msgs.innerHTML+=`<div class="ai-msg user">${q}</div>`;
+  msgs.innerHTML+=`<div class="ai-msg thinking" id="ai-thinking">...</div>`;
+  msgs.scrollTop=msgs.scrollHeight;
+
+  try{
+    const response=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:1000,
+        system:`أنت مساعد تعليمي متخصص في الأمن السيبراني لمنصة "${CFG.title1}${CFG.title2}".
+مهمتك:
+1. شرح مواضيع الأمن السيبراني (Red Team, Blue Team, Malware, Forensics, etc)
+2. شرح الكورسات والمسارات على المنصة
+3. اقتراح مسارات تعلم مناسبة
+4. أجب باللغة العربية بأسلوب تعليمي بسيط ومفيد
+5. لا تعدل أي إعدادات أو بيانات للموقع - أنت للمستخدمين فقط
+6. إذا سُئلت عن شيء غير تعليمي، وجّه المستخدم للتعلم
+
+الأقسام المتاحة: ${CFG.sections.map(s=>s.name).join(', ')}, Workshops, CTF
+المنصة تحتوي على خارطة طريق كاملة للأمن السيبراني.`,
+        messages:[{role:'user',content:q}]
+      })
+    });
+    const data=await response.json();
+    const reply=data.content?.[0]?.text||'عذراً، حدث خطأ. حاول مرة أخرى.';
+    document.getElementById('ai-thinking').remove();
+    msgs.innerHTML+=`<div class="ai-msg bot">${reply.replace(/\n/g,'<br>')}</div>`;
+  }catch(e){
+    document.getElementById('ai-thinking')?.remove();
+    msgs.innerHTML+=`<div class="ai-msg bot">عذراً، تعذر الاتصال بالـ AI. تحقق من اتصال الإنترنت.</div>`;
+  }
+  msgs.scrollTop=msgs.scrollHeight;
+}
+
+async function getAIHint(){
+  if(!activeCTF) return;
+  const msgs=document.getElementById('ai-messages');
+  document.getElementById('ai-panel').classList.add('open');
+  msgs.innerHTML+=`<div class="ai-msg user">أعطني تلميحاً للـ challenge: ${activeCTF}</div>`;
+  msgs.innerHTML+=`<div class="ai-msg thinking" id="ai-thinking">...</div>`;
+  try{
+    const response=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:300,
+        system:'أنت مساعد CTF. أعطِ تلميحاً يساعد المستخدم دون كشف الـ Flag مباشرة. باللغة العربية.',
+        messages:[{role:'user',content:`تلميح للـ challenge: ${activeCTF}`}]
+      })
+    });
+    const data=await response.json();
+    const reply=data.content?.[0]?.text||'فكر في اتجاه جديد!';
+    document.getElementById('ai-thinking')?.remove();
+    msgs.innerHTML+=`<div class="ai-msg bot">💡 ${reply}</div>`;
+  }catch(e){ document.getElementById('ai-thinking')?.remove(); msgs.innerHTML+=`<div class="ai-msg bot">💡 فكر في المنهجية الأساسية للـ challenge.</div>`; }
+  msgs.scrollTop=99999;
+}
+
+async function getAILabHint(labData){
+  document.getElementById('ai-panel').classList.add('open');
+  const msgs=document.getElementById('ai-messages');
+  msgs.innerHTML+=`<div class="ai-msg user">أعطني تلميحاً لـ Lab: ${labData.title}</div>`;
+  msgs.innerHTML+=`<div class="ai-msg thinking" id="ai-thinking">...</div>`;
+  try{
+    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:300,system:'مساعد تعليمي. أعطِ تلميحاً للـ Lab دون كشف الجواب مباشرة.',messages:[{role:'user',content:`Lab: ${labData.title}\nالتعليمات: ${labData.instructions}`}]})});
+    const d=await r.json();
+    document.getElementById('ai-thinking')?.remove();
+    msgs.innerHTML+=`<div class="ai-msg bot">💡 ${d.content?.[0]?.text||'فكر في التعليمات جيداً!'}</div>`;
+  }catch(e){ document.getElementById('ai-thinking')?.remove(); msgs.innerHTML+=`<div class="ai-msg bot">💡 اقرأ التعليمات بعناية وجرب خطوة خطوة.</div>`; }
+  msgs.scrollTop=99999;
+}
+
+/* ============================================================ 3D */
+function init3D(){
+  const canvas=document.getElementById('three-canvas'); if(!canvas) return;
+  threeScene=new THREE.Scene();
+  threeCamera=new THREE.PerspectiveCamera(75,canvas.offsetWidth/(canvas.offsetHeight||400),0.1,1000);
+  threeCamera.position.z=5;
+  threeRenderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true});
+  threeRenderer.setSize(canvas.offsetWidth||600,canvas.offsetHeight||400);
+  threeRenderer.setClearColor(0x000000,0);
+
+  const amb=new THREE.AmbientLight(0x444444); threeScene.add(amb);
+  const dir=new THREE.DirectionalLight(0xff003c,1); dir.position.set(5,5,5); threeScene.add(dir);
+  const dir2=new THREE.DirectionalLight(0x8b0020,0.5); dir2.position.set(-5,-3,2); threeScene.add(dir2);
+
+  animate3D();
+}
+
+function animate3D(){
+  threeAnimId=requestAnimationFrame(animate3D);
+  if(threeRotate && threeScene){
+    threeScene.children.forEach(obj=>{ if(obj.isMesh){ obj.rotation.x+=0.008; obj.rotation.y+=0.012; } });
+  }
+  if(threeRenderer && threeScene && threeCamera) threeRenderer.render(threeScene,threeCamera);
+}
+
+function add3DShape(type){
+  if(!threeScene) init3D();
+  const color=parseInt(document.getElementById('model-color')?.value.replace('#','0x')||'0x8b0020');
+  const size=parseFloat(document.getElementById('model-size')?.value||1);
+  let geo;
+  if(type==='cube') geo=new THREE.BoxGeometry(size,size,size);
+  else if(type==='sphere') geo=new THREE.SphereGeometry(size/2,32,32);
+  else if(type==='torus') geo=new THREE.TorusGeometry(size/2,0.2,16,100);
+  const mat=new THREE.MeshPhongMaterial({color,wireframe:false,transparent:true,opacity:.9});
+  const mesh=new THREE.Mesh(geo,mat);
+  mesh.position.set((Math.random()-.5)*3,(Math.random()-.5)*2,0);
+  threeScene.add(mesh);
+}
+
+function toggle3DRotation(){ threeRotate=!threeRotate; }
+function clear3DScene(){ if(threeScene) threeScene.children.filter(o=>o.isMesh).forEach(o=>threeScene.remove(o)); }
+
+// Hero 3D
+function initHero3D(){
+  const canvas=document.getElementById('hero-3d-canvas'); if(!canvas) return;
+  const scene=new THREE.Scene();
+  const cam=new THREE.PerspectiveCamera(60,canvas.offsetWidth/(canvas.offsetHeight||300),0.1,1000);
+  cam.position.z=8;
+  const ren=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true});
+  ren.setSize(canvas.offsetWidth||800,canvas.offsetHeight||300);
+  ren.setClearColor(0x000000,0);
+  const amb=new THREE.AmbientLight(0x111111); scene.add(amb);
+  const light=new THREE.DirectionalLight(0x8b0020,2); light.position.set(3,3,5); scene.add(light);
+  const light2=new THREE.PointLight(0xff003c,1,20); light2.position.set(-4,-2,3); scene.add(light2);
+
+  const meshes=[];
+  const shapes=[
+    new THREE.IcosahedronGeometry(1.2,0),
+    new THREE.OctahedronGeometry(.7,0),
+    new THREE.TetrahedronGeometry(.5,0)
+  ];
+  shapes.forEach((g,i)=>{
+    const m=new THREE.MeshPhongMaterial({color:i===0?0x8b0020:i===1?0xff003c:0x440010,wireframe:i!==0,transparent:true,opacity:.8});
+    const mesh=new THREE.Mesh(g,m);
+    mesh.position.set((i-1)*3,(i%2-.5)*1,0);
+    scene.add(mesh); meshes.push(mesh);
+  });
+
+  function loop(){ requestAnimationFrame(loop); meshes.forEach((m,i)=>{ m.rotation.x+=.005+i*.003; m.rotation.y+=.007+i*.004; }); ren.render(scene,cam); }
+  loop();
+}
+
+/* ============================================================ NAVIGATION */
+function showSection(id){
+  hideAll();
+  if(id==='workshops'){ document.getElementById('workshops-section').classList.add('active'); }
+  else if(id==='ctf'){ document.getElementById('ctf-section').classList.add('active'); }
+  else{
+    const el=document.getElementById('section-'+id);
+    if(el) el.classList.add('active');
+  }
+  document.getElementById('main-nav').classList.add('visible');
+  markNavActive(id);
+  currentSection=id;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function hideAll(){
+  document.getElementById('landing').style.display='none';
+  document.getElementById('workshops-section').classList.remove('active');
+  document.getElementById('ctf-section').classList.remove('active');
+  document.getElementById('workshop-detail').classList.remove('active');
+  document.querySelectorAll('.roadmap-section').forEach(s=>s.classList.remove('active'));
+}
+
+function markNavActive(id){
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  const btn=document.getElementById('nav-'+id);
+  if(btn) btn.classList.add('active');
+}
+
+function goHome(){
+  document.querySelectorAll('.roadmap-section').forEach(s=>s.classList.remove('active'));
+  document.getElementById('workshops-section').classList.remove('active');
+  document.getElementById('ctf-section').classList.remove('active');
+  document.getElementById('workshop-detail').classList.remove('active');
+  document.getElementById('landing').style.display='';
+  document.getElementById('main-nav').classList.remove('visible');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function togglePhase(el){
+  event.stopPropagation();
+  el.classList.toggle('open');
+}
+
+/* ============================================================ ADMIN */
+function openAdmin(){ document.getElementById('admin-modal').classList.add('open'); if(!adminUnlocked){document.getElementById('admin-login-pane').style.display='block';document.getElementById('admin-panel-el').style.display='none';} }
+function closeAdmin(){ document.getElementById('admin-modal').classList.remove('open'); }
+
+function checkPass(){
+  const v=document.getElementById('pass-input-el').value;
+  if(btoa(v)===CFG.password){
+    adminUnlocked=true;
+    document.getElementById('admin-login-pane').style.display='none';
+    document.getElementById('admin-panel-el').style.display='block';
+    loadAdminFields();
+    setTimeout(()=>{ if(!threeScene) init3D(); },300);
+  } else {
+    document.getElementById('pass-err-el').textContent='❌ كلمة المرور غلط';
+    setTimeout(()=>document.getElementById('pass-err-el').textContent='',2000);
+  }
+}
+
+function switchAdminTab(name){
+  document.querySelectorAll('.a-tab').forEach((t,i)=>{
+    const names=['general','images','social','sections','workshops','ctf','3d','security'];
+    t.classList.toggle('active',names[i]===name);
+  });
+  document.querySelectorAll('.a-pane').forEach(p=>p.classList.remove('active'));
+  document.getElementById('a-pane-'+name).classList.add('active');
+  if(name==='3d' && !threeScene) setTimeout(init3D,100);
+}
+
+function loadAdminFields(){
+  document.getElementById('a-title1').value=CFG.title1;
+  document.getElementById('a-title2').value=CFG.title2;
+  document.getElementById('a-subtitle').value=CFG.subtitle;
+  document.getElementById('a-version').value=CFG.version;
+  document.getElementById('a-badge').value=CFG.badge;
+  document.getElementById('a-tg').value=CFG.tg||'';
+  document.getElementById('a-ig').value=CFG.ig||'';
+  document.getElementById('a-yt').value=CFG.yt||'';
+  document.getElementById('a-tw').value=CFG.tw||'';
+  if(CFG.images.logo){ document.getElementById('logo-prev-wrap').style.display='block'; document.getElementById('logo-prev').src=CFG.images.logo; }
+  if(CFG.images.hero){ document.getElementById('hero-prev-wrap').style.display='block'; document.getElementById('hero-prev').src=CFG.images.hero; }
+  if(CFG.images.wsBanner){ document.getElementById('wsBanner-prev-wrap').style.display='block'; document.getElementById('wsBanner-prev').src=CFG.images.wsBanner; }
+  renderSectionsManager();
+  renderPhaseEditors();
+  renderWSEditor();
+  renderCTFEditor();
+  renderSectionBannerUploads();
+}
+
+function saveAll(){
+  CFG.title1=document.getElementById('a-title1').value||'السايبر';
+  CFG.title2=document.getElementById('a-title2').value||'تيم';
+  CFG.subtitle=document.getElementById('a-subtitle').value;
+  CFG.version=document.getElementById('a-version').value;
+  CFG.badge=document.getElementById('a-badge').value;
+  CFG.tg=document.getElementById('a-tg').value;
+  CFG.ig=document.getElementById('a-ig').value;
+  CFG.yt=document.getElementById('a-yt').value;
+  CFG.tw=document.getElementById('a-tw').value;
+  saveData(); renderSite();
+  const ok=document.getElementById('save-ok-el'); ok.style.display='block';
+  setTimeout(()=>ok.style.display='none',3000);
+  showNotif('✓ تم حفظ كل التغييرات','success');
+}
+
+/* IMG */
+function handleImg(input,key){
+  const file=input.files[0]; if(!file) return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    CFG.images[key]=e.target.result;
+    const pw=document.getElementById(key+'-prev-wrap'); const pi=document.getElementById(key+'-prev');
+    if(pw&&pi){ pw.style.display='block'; pi.src=e.target.result; }
+    saveData(); renderSite(); showNotif('✓ تم رفع الصورة','success');
+  };
+  reader.readAsDataURL(file);
+}
+
+function clearImg(key){
+  CFG.images[key]='';
+  const pw=document.getElementById(key+'-prev-wrap'); if(pw) pw.style.display='none';
+  saveData(); renderSite();
+}
+
+function handleSectionBanner(input,secId){
+  const file=input.files[0]; if(!file) return;
+  const reader=new FileReader();
+  reader.onload=e=>{ CFG.sectionBanners=CFG.sectionBanners||{}; CFG.sectionBanners[secId]=e.target.result; saveData(); renderSite(); showNotif('✓ تم رفع البانر','success'); };
+  reader.readAsDataURL(file);
+}
+
+function renderSectionBannerUploads(){
+  const el=document.getElementById('section-banners-admin');
+  el.innerHTML=CFG.sections.map(s=>`
+    <div class="a-section-title" style="margin-top:1rem;">// بانر ${s.name}</div>
+    <div class="img-upload-zone"><input type="file" accept="image/*" onchange="handleSectionBanner(this,'${s.id}')"><div class="img-upload-icon">🖼</div><div class="img-upload-text">بانر قسم ${s.name}</div></div>
+    ${CFG.sectionBanners&&CFG.sectionBanners[s.id]?`<div style="margin-top:.5rem;"><img src="${CFG.sectionBanners[s.id]}" style="width:100%;height:70px;object-fit:cover;border-radius:3px;"><button class="btn btn-xs btn-danger" style="margin-top:.3rem;" onclick="CFG.sectionBanners['${s.id}']='';;saveData();renderSite();renderSectionBannerUploads();">حذف</button></div>`:''}
+  `).join('');
+}
+
+/* SECTIONS MANAGER */
+function renderSectionsManager(){
+  const el=document.getElementById('sections-manager-el');
+  el.innerHTML=CFG.sections.map((s,i)=>`
+    <div class="section-mgr-item">
+      <span class="smgr-icon">${s.icon}</span>
+      <div class="smgr-info"><div class="smgr-name">${s.name}</div><div class="smgr-type">${s.type} | ${(s.phases||[]).length} مراحل</div></div>
+      <div class="smgr-actions">
+        <button class="btn btn-xs btn-danger" onclick="deleteSection(${i})">🗑</button>
+      </div>
+    </div>`).join('');
+}
+
+function openSectionModal(){ document.getElementById('section-add-modal').classList.add('open'); }
+function closeSectionModal(){ document.getElementById('section-add-modal').classList.remove('open'); }
+
+function addSection(){
+  const name=document.getElementById('sa-name').value; if(!name) return;
+  const id='sec-'+Date.now();
+  CFG.sections.push({ id, name, icon:document.getElementById('sa-icon').value||'🔒', type:document.getElementById('sa-type').value, desc:'', phases:[] });
+  closeSectionModal(); saveData(); renderSite(); renderSectionsManager(); renderPhaseEditors(); renderSectionBannerUploads();
+  showNotif('✓ تمت إضافة القسم','success');
+}
+
+function deleteSection(i){
+  if(!confirm('حذف هذا القسم؟')) return;
+  CFG.sections.splice(i,1); saveData(); renderSite(); renderSectionsManager(); renderPhaseEditors(); renderSectionBannerUploads();
+  showNotif('✓ تم حذف القسم','success');
+}
+
+/* PHASE EDITORS */
+function renderPhaseEditors(){
+  const el=document.getElementById('phase-editors-admin');
+  el.innerHTML=CFG.sections.map((s,si)=>`
+    <div style="margin-top:1.25rem;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.6rem;">
+        <div class="a-section-title" style="margin-bottom:0;">// مراحل ${s.name}</div>
+        <button class="btn btn-xs btn-primary" onclick="addPhase(${si})">+ مرحلة</button>
+      </div>
+      ${(s.phases||[]).map((p,pi)=>`
+        <div class="pe-item" id="pe-${si}-${pi}">
+          <div class="pe-head">
+            <div class="pe-title">${p.num||pi+1} · ${p.title}</div>
+            <div class="pe-actions">
+              <button class="btn btn-xs btn-primary" onclick="editPhaseDetails(${si},${pi})">✏</button>
+              <button class="btn btn-xs btn-warn" onclick="editPhaseImg(${si},${pi})">🖼</button>
+              <button class="btn btn-xs btn-danger" onclick="deletePhase(${si},${pi})">🗑</button>
+              <span style="color:var(--text3);cursor:pointer;font-size:.85rem;" onclick="togglePE('pe-${si}-${pi}')">▼</span>
+            </div>
+          </div>
+          <div class="pe-body">
+            <div class="section-label" style="margin-top:.75rem;">الكورسات</div>
+            ${(p.courses||[]).map((c,ci)=>`
+              <div class="course-ed-item">
+                <span class="course-ed-name">${c.name} <span style="font-size:.6rem;color:var(--text3)">[${c.type}]${c.link?' ↗':''}</span></span>
+                <button class="btn btn-xs btn-primary btn-icon" onclick="editCourse(${si},${pi},${ci})">✏</button>
+                <button class="btn btn-xs btn-danger btn-icon" onclick="deleteCourse(${si},${pi},${ci})">🗑</button>
+              </div>`).join('')}
+            <button class="btn btn-xs btn-success" style="margin-top:.4rem;" onclick="openCourseModal(${si},${pi},null)">+ كورس</button>
+          </div>
+        </div>`).join('')}
+    </div>`).join('');
+}
+
+function togglePE(id){ const el=document.getElementById(id); if(el){ el.classList.toggle('expanded'); } }
+
+function addPhase(si){
+  const n=String((CFG.sections[si].phases||[]).length+1).padStart(2,'0');
+  CFG.sections[si].phases=CFG.sections[si].phases||[];
+  CFG.sections[si].phases.push({num:n,title:'مرحلة جديدة',duration:'',tag:'',icon:'🔒',image:'',desc:'',courses:[],labs:[],certs:[],goal:''});
+  saveData(); renderSite(); renderPhaseEditors(); showNotif('✓ تمت إضافة المرحلة','success');
+}
+
+function deletePhase(si,pi){
+  if(!confirm('حذف هذه المرحلة؟')) return;
+  CFG.sections[si].phases.splice(pi,1); saveData(); renderSite(); renderPhaseEditors();
+}
+
+function editPhaseDetails(si,pi){
+  const p=CFG.sections[si].phases[pi];
+  const t=prompt('عنوان المرحلة:',p.title); if(t===null) return; p.title=t;
+  const d=prompt('الوصف:',p.desc); if(d!==null) p.desc=d;
+  const dur=prompt('المدة:',p.duration); if(dur!==null) p.duration=dur;
+  const g=prompt('الهدف:',p.goal); if(g!==null) p.goal=g;
+  saveData(); renderSite(); renderPhaseEditors(); showNotif('✓ تم تعديل المرحلة','success');
+}
+
+function editPhaseImg(si,pi){
+  const input=document.createElement('input'); input.type='file'; input.accept='image/*';
+  input.onchange=e=>{ const f=e.target.files[0]; if(!f) return; const r=new FileReader(); r.onload=ev=>{ CFG.sections[si].phases[pi].image=ev.target.result; saveData(); renderSite(); renderPhaseEditors(); showNotif('✓ تم رفع الصورة','success'); }; r.readAsDataURL(f); };
+  input.click();
+}
+
+/* COURSE MODAL */
+function openCourseModal(si,pi,ci){
+  courseModalCtx={si,pi,ci};
+  document.getElementById('course-mini-title').textContent=ci===null?'إضافة كورس':'تعديل كورس';
+  if(ci!==null){ const c=CFG.sections[si].phases[pi].courses[ci]; document.getElementById('cm-name').value=c.name; document.getElementById('cm-type').value=c.type; document.getElementById('cm-link').value=c.link||''; }
+  else{ document.getElementById('cm-name').value=''; document.getElementById('cm-type').value='free'; document.getElementById('cm-link').value=''; }
+  document.getElementById('course-mini-modal').classList.add('open');
+}
+function closeCourseModal(){ document.getElementById('course-mini-modal').classList.remove('open'); courseModalCtx=null; }
+function saveCourse(){
+  if(!courseModalCtx) return;
+  const {si,pi,ci}=courseModalCtx;
+  const c={name:document.getElementById('cm-name').value||'كورس',type:document.getElementById('cm-type').value,link:document.getElementById('cm-link').value};
+  if(ci!==null) CFG.sections[si].phases[pi].courses[ci]=c;
+  else CFG.sections[si].phases[pi].courses.push(c);
+  closeCourseModal(); saveData(); renderSite(); renderPhaseEditors(); showNotif('✓ تم حفظ الكورس','success');
+}
+function editCourse(si,pi,ci){ openCourseModal(si,pi,ci); }
+function deleteCourse(si,pi,ci){ if(!confirm('حذف؟')) return; CFG.sections[si].phases[pi].courses.splice(ci,1); saveData(); renderSite(); renderPhaseEditors(); }
+
+/* WORKSHOPS ADMIN */
+function renderWSEditor(){
+  const el=document.getElementById('ws-editor-el');
+  el.innerHTML=CFG.workshops.map((w,i)=>`
+    <div class="ws-ed-item">
+      <div class="ws-ed-head">
+        <div class="ws-ed-title">${w.icon||'🔐'} ${w.title}</div>
+        <div class="ws-ed-actions">
+          <button class="btn btn-xs btn-primary" onclick="openWSModal(${i})">✏</button>
+          <button class="btn btn-xs btn-warn" onclick="editWSImg(${i})">🖼</button>
+          <button class="btn btn-xs btn-danger" onclick="deleteWS(${i})">🗑</button>
+        </div>
+      </div>
+    </div>`).join('')||`<div style="color:var(--text3);font-size:.78rem;">لا توجد ورشات بعد</div>`;
+}
+
+function openWSModal(idx){
+  wsModalIdx=idx;
+  document.getElementById('ws-modal-title').textContent=idx===null?'إضافة ورشة':'تعديل ورشة';
+  if(idx!==null){ const w=CFG.workshops[idx];
+    document.getElementById('ws-title-inp').value=w.title||'';
+    document.getElementById('ws-icon-inp').value=w.icon||'';
+    document.getElementById('ws-desc-inp').value=w.desc||'';
+    document.getElementById('ws-level-inp').value=w.level||'beginner';
+    document.getElementById('ws-dur-inp').value=w.duration||'';
+    document.getElementById('ws-instr-inp').value=w.instructor||'';
+    document.getElementById('ws-overview-inp').value=w.overview||'';
+    document.getElementById('ws-resources-inp').value=(w.resources||[]).join('\n');
+  } else { ['ws-title-inp','ws-icon-inp','ws-desc-inp','ws-dur-inp','ws-instr-inp','ws-overview-inp','ws-resources-inp'].forEach(id=>document.getElementById(id).value=''); }
+  document.getElementById('ws-add-modal').classList.add('open');
+}
+function closeWSModal(){ document.getElementById('ws-add-modal').classList.remove('open'); wsModalIdx=null; }
+function saveWorkshop(){
+  const w={ id:wsModalIdx!==null?CFG.workshops[wsModalIdx].id:'ws-'+Date.now(), title:document.getElementById('ws-title-inp').value||'ورشة', icon:document.getElementById('ws-icon-inp').value||'🔐', desc:document.getElementById('ws-desc-inp').value, level:document.getElementById('ws-level-inp').value, duration:document.getElementById('ws-dur-inp').value, instructor:document.getElementById('ws-instr-inp').value, overview:document.getElementById('ws-overview-inp').value, resources:document.getElementById('ws-resources-inp').value.split('\n').filter(r=>r.trim()), labs:wsModalIdx!==null?CFG.workshops[wsModalIdx].labs||[]:[],
+    image:wsModalIdx!==null?CFG.workshops[wsModalIdx].image||'':'' };
+  if(wsModalIdx!==null) CFG.workshops[wsModalIdx]=w; else CFG.workshops.push(w);
+  closeWSModal(); saveData(); renderSite(); renderWSEditor(); showNotif('✓ تم حفظ الورشة','success');
+}
+function deleteWS(i){ if(!confirm('حذف الورشة؟')) return; CFG.workshops.splice(i,1); saveData(); renderSite(); renderWSEditor(); }
+function editWSImg(i){ const input=document.createElement('input'); input.type='file'; input.accept='image/*'; input.onchange=e=>{ const f=e.target.files[0]; if(!f) return; const r=new FileReader(); r.onload=ev=>{ CFG.workshops[i].image=ev.target.result; saveData(); renderSite(); renderWSEditor(); showNotif('✓ تم رفع صورة الورشة','success'); }; r.readAsDataURL(f); }; input.click(); }
+
+/* CTF ADMIN */
+function renderCTFEditor(){
+  const el=document.getElementById('ctf-editor-el');
+  el.innerHTML=CFG.ctfChallenges.map((c,i)=>`
+    <div class="ctf-ed-item">
+      <div class="ctf-ed-head">
+        <span><span class="tag tag-${c.level}">${c.level}</span> ${c.title} <span style="color:var(--cyan);font-family:'Rajdhani',sans-serif;">${c.points}pts</span></span>
+        <div style="display:flex;gap:.3rem;">
+          <button class="btn btn-xs btn-primary" onclick="openCTFAddModal(${i})">✏</button>
+          <button class="btn btn-xs btn-danger" onclick="deleteCTF(${i})">🗑</button>
+        </div>
+      </div>
+    </div>`).join('')||`<div style="color:var(--text3);font-size:.78rem;">لا توجد تحديات بعد</div>`;
+}
+function openCTFAddModal(idx){ ctfModalIdx=idx; document.getElementById('ctf-modal-add-title').textContent=idx===null?'إضافة Challenge':'تعديل Challenge';
+  if(idx!==null){ const c=CFG.ctfChallenges[idx]; document.getElementById('ctf-add-title').value=c.title||''; document.getElementById('ctf-add-level').value=c.level||'easy'; document.getElementById('ctf-add-desc').value=c.desc||''; document.getElementById('ctf-add-flag').value=c.flag||''; document.getElementById('ctf-add-pts').value=c.points||100; document.getElementById('ctf-add-hints').value=(c.hints||[]).join('\n'); }
+  else{ ['ctf-add-title','ctf-add-desc','ctf-add-flag','ctf-add-hints'].forEach(id=>document.getElementById(id).value=''); document.getElementById('ctf-add-pts').value=100; }
+  document.getElementById('ctf-add-modal').classList.add('open');
+}
+function closeCTFAddModal(){ document.getElementById('ctf-add-modal').classList.remove('open'); ctfModalIdx=null; }
+function saveCTFChallenge(){
+  const c={ id:ctfModalIdx!==null?CFG.ctfChallenges[ctfModalIdx].id:'ctf-'+Date.now(), title:document.getElementById('ctf-add-title').value||'Challenge', level:document.getElementById('ctf-add-level').value, desc:document.getElementById('ctf-add-desc').value, flag:document.getElementById('ctf-add-flag').value, points:parseInt(document.getElementById('ctf-add-pts').value)||100, hints:document.getElementById('ctf-add-hints').value.split('\n').filter(h=>h.trim()), solved:ctfModalIdx!==null?CFG.ctfChallenges[ctfModalIdx].solved:false };
+  if(ctfModalIdx!==null) CFG.ctfChallenges[ctfModalIdx]=c; else CFG.ctfChallenges.push(c);
+  closeCTFAddModal(); saveData(); renderSite(); renderCTFEditor(); showNotif('✓ تم حفظ الـ Challenge','success');
+}
+function deleteCTF(i){ if(!confirm('حذف؟')) return; CFG.ctfChallenges.splice(i,1); saveData(); renderSite(); renderCTFEditor(); }
+
+/* SECURITY */
+function changePassword(){
+  const cur=document.getElementById('cur-pass-el').value;
+  const nw=document.getElementById('new-pass-el').value;
+  const cf=document.getElementById('conf-pass-el').value;
+  if(btoa(cur)!==CFG.password){showNotif('❌ كلمة المرور الحالية غلط','error');return;}
+  if(nw.length<6){showNotif('❌ كلمة المرور قصيرة','error');return;}
+  if(nw!==cf){showNotif('❌ كلمتا المرور غير متطابقتين','error');return;}
+  CFG.password=btoa(nw); saveData();
+  ['cur-pass-el','new-pass-el','conf-pass-el'].forEach(id=>document.getElementById(id).value='');
+  showNotif('✓ تم تغيير كلمة المرور','success');
+}
+
+function resetAll(){
+  if(!confirm('⚠️ حذف كل البيانات والبدء من جديد؟')) return;
+  localStorage.removeItem('ct_v2'); CFG=JSON.parse(JSON.stringify(DEFAULT));
+  saveData(); renderSite(); adminUnlocked=false; closeAdmin(); showNotif('✓ تمت إعادة التعيين','success');
+}
+
+function load3DModel(input){ showNotif('لرفع GLB/GLTF تحتاج Three.js GLTFLoader — متاح في نسخة متقدمة','info'); }
+
+/* ============================================================ INIT */
+loadData();
+renderSite();
+initHero3D();
+</script>
+</body>
+</html>
